@@ -34,10 +34,63 @@ void black_and_white(Image &img)
 }
 
 int main () {
-        string img_name;
-    cin >> img_name;
-    // momen 
-    Image img(img_name);
-    black_and_white(img);
-    img.saveImage("img.png");
+    string filename;
+    cout << "Pls enter colored image name to filter it: ";
+    cin >> filename;
+
+    Image image(filename);
+    
+    vector<string> filters = {"Grayscale", "Black and White", "Invert Colors", "Frame", "Flip", "Rotate",
+         "Brightness Adjustment", "Resize", "Merge Images", "Edge Detection", "Crop", "Blur", "Sunlight Effect", 
+         "Old TV Effect", "Purple Tint", "infrared", "Skew", "Oil Painting"};
+
+    for(int i = 0; i < 8; i++){
+        cout << i+1 << "." << filters[i] << "\n";
+    }
+    cout << "Pls enter the number filter: ";
+    int filter_num;
+    cin >> filter_num;
+
+    switch(filter_num){
+        case 1:
+            grayscale(image);
+            break;
+        case 2:
+            // black and white function (Ali)
+            break;
+        case 3:
+            // Invert colors function (Yehia)
+            break;
+        case 4:
+            // cout << 1 << ".simple\n";
+            // cout << 2 << ".Fancy\n";
+            // int x; cin >> x;
+            // Frame (Mo'men)
+            break;
+        case 5:
+            int c;
+            cout << 1 << ".Horizontally\n" << 2 << ".Vertically\n";
+            cout << "Enter your choice: ";
+            cin >> c;
+            flip(image, c);
+            break;
+        case 6:
+            // Rotate (Ali)
+            break;
+        case 7:
+            // Darken and Lighten (Yehia)
+            break;
+        case 8:
+            // resize (Mo'men)
+            break;
+    }
+    cout << "Pls enter image name to store new image\n";
+    cout << "and specify extension .jpg, .bmp, .png, .tga: ";
+
+
+    cin >> filename;
+
+    image.saveImage(filename);
+
+    return 0;
 }
