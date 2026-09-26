@@ -36,7 +36,7 @@ void black_and_white(Image &img)
 int main () {
         string img_name;
     cin >> img_name;
-
+    // momen 
     Image img(img_name);
     black_and_white(img);
     img.saveImage("img.png");
