@@ -34,11 +34,10 @@ void black_and_white(Image &img)
 }
 
 int main () {
-    cout << "Pls enter image name to store new image\n";
-    cout << "and specify extension .jpg, .bmp, .png, .tga: ";
+        string img_name;
+    cin >> img_name;
 
-    cin >> filename;
-    image.saveImage(filename);
-
-    return 0;
+    Image img(img_name);
+    black_and_white(img);
+    img.saveImage("img.png");
 }
