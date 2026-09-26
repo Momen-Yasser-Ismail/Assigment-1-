@@ -2,6 +2,46 @@
 using namespace std;
 #include "Image_Class.h"
 
+void grayscale(Image &image){
+    for (int i = 0; i < image.width; ++i) {
+        for (int j = 0; j < image.height; ++j) {
+            unsigned  int avg = 0; // Initialize average value
+
+            for (int k = 0; k < 3; ++k) {
+                avg += image(i, j, k); // Accumulate pixel values
+            }
+
+            avg /= 3; // Calculate average
+
+            // Set all channels to the average value
+            image(i, j, 0) = avg;
+            image(i, j, 1) = avg;
+            image(i, j, 2) = avg;
+        }
+    }
+}
+
+void flip(Image &image, bool h){
+    if(h){
+        for(int i = 0;i < image.width; i++){
+            for(int j = 0; j * 2 < image.height; j++){
+                swap(image(i, j, 0), image(i, image.height - 1 - j, 0));
+                swap(image(i, j, 1), image(i, image.height - 1 - j, 1));
+                swap(image(i, j, 2), image(i, image.height - 1 - j, 2));
+            }
+        }
+        return;
+    }
+    for(int i = 0;i * 2 < image.width; i++){
+        for(int j = 0; j < image.height; j++){
+            swap(image(i, j, 0), image(image.width-i-1, j, 0));
+            swap(image(i, j, 1), image(image.width-i-1, j, 1));
+            swap(image(i, j, 2), image(image.width-i-1, j, 2));
+        }
+    }
+}
+
+
 void black_and_white(Image &img)
 {
     for (int i = 0; i < img.width; i++)
