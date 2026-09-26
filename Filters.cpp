@@ -56,7 +56,7 @@ int main () {
             grayscale(image);
             break;
         case 2:
-            // black and white function (Ali)
+            black_and_white(image);
             break;
         case 3:
             // Invert colors function (Yehia)
