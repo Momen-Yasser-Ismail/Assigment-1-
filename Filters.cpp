@@ -2,7 +2,7 @@
 using namespace std;
 #include "Image_Class.h"
 
-void frame (image) 
+void frame (Image &image) 
 {
     int type_of_frame; // Normal frame or Fancy frame
     cout << "Choose 1 for normal frame or 2 for fancy frame: ";
@@ -52,15 +52,15 @@ void frame (image)
                 break;
         }
 
-        for (int i = 0; i < img.width; i++) 
+        for (int i = 0; i < image.width; i++) 
         {
-            for (int j = 0; j < img.height; j++) 
+            for (int j = 0; j < image.height; j++) 
             {
-                if (i < framewidth/2 || i >= img.width - framewidth/2 || j < framewidth/2 || j >= img.height - framewidth/2) 
+                if (i < framewidth/2 || i >= image.width - framewidth/2 || j < framewidth/2 || j >= image.height - framewidth/2) 
                 {
-                    img(i, j, 0) = R;
-                    img(i, j, 1) = G;
-                    img(i, j, 2) = B;
+                    image(i, j, 0) = R;
+                    image(i, j, 1) = G;
+                    image(i, j, 2) = B;
                 }
             }
         }
@@ -102,29 +102,29 @@ void frame (image)
         int lineThick = 6;
         int cornerSize = 40; 
 
-        for (int i = 0; i < img.width; ++i) 
+        for (int i = 0; i < image.width; ++i) 
         {
-            for (int j = 0; j < img.height; ++j) 
+            for (int j = 0; j < image.height; ++j) 
             {
-                bool isOuter = (i < outerThick || i >= img.width - outerThick || j < outerThick || j >= img.height - outerThick);
-                bool isInner = ((i >= innerOffset && i < innerOffset + lineThick) || (i >= img.width - innerOffset - lineThick && i < img.width - innerOffset) 
-                || (j >= innerOffset && j < innerOffset + lineThick) || (j >= img.height - innerOffset - lineThick && j < img.height - innerOffset));
+                bool isOuter = (i < outerThick || i >= image.width - outerThick || j < outerThick || j >= image.height - outerThick);
+                bool isInner = ((i >= innerOffset && i < innerOffset + lineThick) || (i >= image.width - innerOffset - lineThick && i < image.width - innerOffset) 
+                || (j >= innerOffset && j < innerOffset + lineThick) || (j >= image.height - innerOffset - lineThick && j < image.height - innerOffset));
                 if (isOuter || isInner) 
                 {
-                    img(i, j, 0) = R;
-                    img(i, j, 1) = G;
-                    img(i, j, 2) = B;
+                    image(i, j, 0) = R;
+                    image(i, j, 1) = G;
+                    image(i, j, 2) = B;
                 }
 
                 bool isTopLeft     = (i < cornerSize) && (j < cornerSize);
-                bool isTopRight    = (i >= img.width - cornerSize) && (j < cornerSize);
-                bool isBottomLeft  = (i < cornerSize) && (j >= img.height - cornerSize);
-                bool isBottomRight = (i >= img.width - cornerSize) && (j >= img.height - cornerSize);
+                bool isTopRight    = (i >= image.width - cornerSize) && (j < cornerSize);
+                bool isBottomLeft  = (i < cornerSize) && (j >= image.height - cornerSize);
+                bool isBottomRight = (i >= image.width - cornerSize) && (j >= image.height - cornerSize);
                 if (isTopLeft || isTopRight || isBottomLeft || isBottomRight) 
                 {
-                    img(i, j, 0) = R;
-                    img(i, j, 1) = G;
-                    img(i, j, 2) = B;
+                    image(i, j, 0) = R;
+                    image(i, j, 1) = G;
+                    image(i, j, 2) = B;
                 }
             }
         }
@@ -286,7 +286,7 @@ int main () {
             // Invert colors function (Yehia)
             break;
         case 4:
-            frame(image)
+            frame(image);
             break;
         case 5:
             int c;
