@@ -2,6 +2,61 @@
 using namespace std;
 #include "Image_Class.h"
 
+void rotate(Image &img)
+{
+
+    cout << "enter Rotation you want(90,180,270): ";
+    int rotation;
+    cin >> rotation;
+
+    if (rotation == 90)
+    {
+        Image rotated(img.height, img.width);
+
+        for (int i = 0; i < img.width; i++)
+        {
+            for (int j = 0; j < img.height; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    rotated(img.height - 1 - j, i, k) = img(i, j, k);
+                }
+            }
+        }
+        img = rotated;
+    }
+    if (rotation == 180)
+    {
+        Image rotated(img.width, img.height);
+        for (int i = 0; i < img.width; i++)
+        {
+            for (int j = 0; j < img.height; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    rotated(img.width - 1 - i, img.height - 1 - j, k) = img(i, j, k);
+                }
+            }
+        }
+        img = rotated;
+    }
+    if (rotation == 270)
+    {
+        Image rotated(img.height, img.width);
+
+        for (int i = 0; i < img.width; i++)
+        {
+            for (int j = 0; j < img.height; j++)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    rotated(j, img.width - 1 - i, k) = img(i, j, k);
+                }
+            }
+        }
+        img = rotated;
+    }
+}
 void grayscale(Image &image){
     for (int i = 0; i < image.width; ++i) {
         for (int j = 0; j < image.height; ++j) {
@@ -115,7 +170,7 @@ int main () {
             flip(image, c);
             break;
         case 6:
-            // Rotate (Ali)
+            rotate(image);
             break;
         case 7:
             // Darken and Lighten (Yehia)
