@@ -20,6 +20,7 @@ void black_and_white(Image &img);
 
 // Mo'men filters 
 void frame (Image &image);
+void resize(Image &image);
 
 int main () 
 {
@@ -70,7 +71,7 @@ int main ()
             // Darken and Lighten (Yehia)
             break;
         case 8:
-            // resize (Mo'men)
+            resize(image);
             break;
     }
 
@@ -340,6 +341,79 @@ void rotate(Image &img)
         }
         img = rotated;
     }
+}
+
+void resize(Image &image)
+{
+    int way_of_input;
+
+    cout << "Choose 1 to enter dimensions or 2 for a scale factor: ";
+    cin >> way_of_input;
+
+    int old_width = image.width;
+    int old_height = image.height;
+
+    int new_width, new_height;
+
+    if (way_of_input == 1)
+    {
+        cout << "Enter new dimensions (e.g. 800x600): ";
+
+        char separator;
+        cin >> new_width >> separator >> new_height;
+    }
+    else
+    {
+        float scale;
+
+        cout << "Enter scale factor (e.g. 0.5 for half, 2.0 for double): ";
+        cin >> scale;
+
+        if (scale <= 0)
+        {
+            cout << "Scale factor must be greater than 0!" << endl;
+            return;
+        }
+
+        new_width = static_cast<int>(old_width * scale);
+        new_height = static_cast<int>(old_height * scale);
+
+    }
+
+    float width_ratio = static_cast<float>(old_width) / new_width;
+    float height_ratio = static_cast<float>(old_height) / new_height;
+
+    Image new_image(new_width, new_height);
+
+    for (int i = 0; i < new_height; i++)
+    {
+        for (int j = 0; j < new_width; j++)
+        {
+            int orig_x = static_cast<int>(j * width_ratio);
+            int orig_y = static_cast<int>(i * height_ratio);
+
+            // Safety: make sure coordinates are valid
+            if (orig_x >= old_width) 
+            {
+                orig_x = old_width - 1;
+            }
+
+            if (orig_y >= old_height)
+            {
+                orig_y = old_height - 1;
+            }
+
+            unsigned char red = image.getPixel(orig_x, orig_y, 0);
+            unsigned char green = image.getPixel(orig_x, orig_y, 1);
+            unsigned char blue = image.getPixel(orig_x, orig_y, 2);
+
+            new_image.setPixel(j, i, 0, red);
+            new_image.setPixel(j, i, 1, green);
+            new_image.setPixel(j, i, 2, blue);
+        }
+    }
+
+    image = new_image;
 }
 
 
