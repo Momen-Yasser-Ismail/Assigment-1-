@@ -1,7 +1,7 @@
 // Header 
 // Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip,
-// Ali Yasser         id: 2025      Filters: Black and white, Rotate,
-// Yehai Nabil        id: 2025      Filters: Invert, 
+// Ali Yasser         id: 20250406  Filters: Black and white, Rotate,
+// Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken,
 // Mo'men Yasser      id: 20251441  Filters: Frame, Resize, 
 
 #include <bits/stdc++.h>
@@ -17,6 +17,8 @@ void rotate(Image &img);
 void black_and_white(Image &img);
 
 // Yehia filters
+void Invert(Image &img);
+void lighten_darken(Image &img);
 
 // Mo'men filters 
 void frame (Image &image);
@@ -52,7 +54,7 @@ int main ()
             black_and_white(image);
             break;
         case 3:
-            // Invert colors function (Yehia)
+            Invert(image);
             break;
         case 4:
             frame(image);
@@ -68,7 +70,7 @@ int main ()
             rotate(image);
             break;
         case 7:
-            // Darken and Lighten (Yehia)
+            lighten_darken(image);
             break;
         case 8:
             resize(image);
@@ -132,6 +134,17 @@ void black_and_white(Image &img)
                 img(i, j, 0) = 0;
                 img(i, j, 1) = 0;
                 img(i, j, 2) = 0;
+            }
+        }
+    }
+}
+
+void Invert(Image &img)
+{
+    for (int i = 0; i < img.width; ++i){
+        for (int j = 0; j < img.height; ++j){
+            for (int k = 0; k < 3; ++k){
+                img(i, j, k) = 255 - img(i, j, k);
             }
         }
     }
@@ -340,6 +353,42 @@ void rotate(Image &img)
             }
         }
         img = rotated;
+    }
+}
+
+void lighten_darken(Image &img)
+{
+
+    int change;
+    int rate_of_change;
+    cout << "Enter 1 to lighten or 2 to darken: ";
+    cin >> change;
+    cout << "Enter the rate of change (0-100%): ";
+    cin >> rate_of_change;
+    double factor = rate_of_change / 100.0;
+
+    if (change == 1){ // Lighten the image
+        for (int i = 0; i < img.width; ++i){
+            for (int j = 0; j < img.height; ++j){
+                for (int k = 0; k < img.channels; ++k){
+                    int color_value = img(i, j, k);
+                    int new_color_value = color_value + (255 - color_value) * factor;
+                    img(i, j, k) = min(new_color_value, 255);
+                }
+            }
+        }
+    }
+
+    else if (change == 2){ // Darken the image
+        for (int i = 0; i < img.width; ++i){
+            for (int j = 0; j < img.height; ++j){
+                for (int k = 0; k < img.channels; ++k){
+                    int color_value = img(i, j, k);
+                    int new_color_value = color_value * (1.0 - factor);
+                    img(i, j, k) = max(new_color_value, 0);
+                }
+            }
+        }
     }
 }
 
