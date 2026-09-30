@@ -26,16 +26,23 @@ void resize(Image &image);
 
 void displaymenu(Image &image, string& name);
 void save(Image &image, string &name);
+bool validname(const string& filename);
 
 int main () 
 {
     string filename;
-    cout << "Pls enter image name to filter it: ";
-    cin >> filename;
+
+    while(true){
+        cout << "Pls enter image name to filter it: ";
+        cin >> filename;
+        if(validname(filename)){
+            break;
+        }
+        // cout << "Invalid file name :(\n";
+    }
     
     Image image(filename);
     displaymenu(image, filename);
-    
 
     return 0;
 }
@@ -198,7 +205,7 @@ void frame (Image &image)
         }
 
         int outerThick = image.width * 0.05;
-        int innerOffset = image.width * 0.75;
+        int innerOffset = image.width * 0.1;
         int lineThick = image.width*0.03;
         int cornerSize = image.width*0.2; 
 
@@ -423,24 +430,29 @@ void displaymenu(Image &image, string &name){
 
     int input = 1;
     do{
-        vector<string> filters = {"Grayscale", "Black and White", "Invert Colors", "Frame", "Flip", "Rotate",
-            "Brightness Adjustment", "Resize", "Merge Images", "Edge Detection", "Crop", "Blur", "Sunlight Effect", 
+        vector<string> filters = {"Grayscale            ", "Black and White      ", "Invert Colors        ", "Frame                ", "Flip                 ", "Rotate               ",
+            "Brightness Adjustment", "Resize               ", "Merge Images", "Edge Detection", "Crop", "Blur", "Sunlight Effect", 
             "Old TV Effect", "Purple Tint", "infrared", "Skew", "Oil Painting"};
-            
-            cout << "### Menu ###\n";
+           
+            cout << "########### Menu ############\n";
+
+            cout << "*****************************\n";
             for(int i = 0; i < 8; i++)
             {
-                cout << i+1 << "." << filters[i] << "\n";
+                cout << "***";
+                cout << i+1 << "." << filters[i] << "***\n";
             }
+            cout << "*****************************\n";
             cout << "20.save image\n";
             cout << "22.exit\n";
+            cout << "21.Load new image\n";
             cout << "Enter your choice: ";
             int filter_num;
             string s;
             cin >> s;
 
             if(s[0] - '0' >= 10 || s.size() > 2 || (s.size() == 2 && s[1]-'0' >= 3)){
-                cout << "Invalid input :(\n";
+                cout << "Invalid input :( Try again\n";
                 continue;
             } 
 
@@ -463,20 +475,20 @@ void displaymenu(Image &image, string &name){
                         cout << "Thx \n";
                         return;
                     } else {
-                        cout << "Invalid input :(\n";
+                        cout << "Invalid input :( Try again\n";
                     }
                     break;
                 case 1:
                     grayscale(image);
-                    cout << "Grayscale filter done successfully :)\n";
+                    cout << "Grayscale filter applied successfully :)\n";
                     break;
                 case 2:
                     black_and_white(image);
-                    cout << "Black & white filter done successfully :)\n";
+                    cout << "Black & white filter applied successfully :)\n";
                     break;
                 case 3:
                     Invert(image);
-                    cout << "Invert filter done successfully :)\n";
+                    cout << "Invert filter applied successfully :)\n";
                     break;
                 case 4:
                     frame(image);
@@ -488,31 +500,45 @@ void displaymenu(Image &image, string &name){
                     cout << "Enter your choice: ";
                     cin >> c;
                     flip(image, c-1);
-                    cout << "Flip filter done successfully :)\n";
+                    cout << "Flip filter applied successfully :)\n";
                     break;
                 }  
                 case 6:
                     rotate(image);
-                    cout << "fotate filter done successfully :)\n";
+                    cout << "fotate filter applied successfully :)\n";
                     break;
                 case 7:
                     lighten_darken(image);
-                    cout << "Filter done successfully :)\n";
+                    cout << "Filter applied successfully :)\n";
                     break;
                 case 8:
                     resize(image);
-                    cout << "Resize filter done successfully :)\n";
+                    cout << "Resize filter applied successfully :)\n";
                     break;
                 case 20:{
                     save(image, name);
                     break;
                 } case 21:{
+                    cout << "Do you want to save the changes to the current image before uploading a new one?\n";
+                    cout << "1.Yes\n2.No";
+                    cout << "Enter Your choice: ";
+                    int x;
+                    cin >> x;
+                    if (x == 1){
+                        save(image, name);
+                    }
                     string filename;
-                    cout << "Pls enter image name to filter it: ";
-                    cin >> filename;
-                    Image img(filename);
-                    image = img;
-                    break;
+                    while(true){
+                        cout << "Pls enter new image name to filter it: ";
+                        cin >> filename;
+                        if(validname(filename)){
+                            break;
+                        }
+                        cout << "Invalid file name :(\n";
+                    }
+                    Image im(filename);
+                    image = im;
+                    name = filename;
                 }
                 default:
                     cout << "Pls enter valid number :(\nTry again :)\n";
@@ -543,4 +569,11 @@ void save(Image &image, string &name){
         save(image, name);
     }
 }
-        
+bool validname(const string& filename) {
+    const char* extension = strrchr(filename.c_str(), '.');
+    if (extension == nullptr) {
+        cout << "Invalid filename: " << filename << endl;
+        return false;
+    }  
+    return true;   
+}
