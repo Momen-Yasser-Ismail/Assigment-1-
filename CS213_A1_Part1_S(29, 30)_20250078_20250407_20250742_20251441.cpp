@@ -281,6 +281,7 @@ void rotate(Image &img)
             }
         }
         img = rotated;
+        return;
     }
     if (rotation == 180)
     {
@@ -296,6 +297,7 @@ void rotate(Image &img)
             }
         }
         img = rotated;
+        return;
     }
     if (rotation == 270)
     {
@@ -312,9 +314,10 @@ void rotate(Image &img)
             }
         }
         img = rotated;
+        return;
     }
+    cout << "Invalid input :( Try again form the menu\n";
 }
-
 void lighten_darken(Image &img)
 {
 
