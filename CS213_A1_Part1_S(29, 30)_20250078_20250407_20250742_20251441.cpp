@@ -1,8 +1,14 @@
 // Header 
+
 // Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip
 // Ali Yasser         id: 20250407  Filters: Black and white, Rotate
 // Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken
 // Mo'men Yasser      id: 20251441  Filters: Frame, Resize
+
+// File Details:
+// The file contatins the C++ code of Assigment 1, we included the libaries then we put the functions and we specifed which one did which function
+// The main function has the display menu function in it which contains the filter functions 
+// All functions are under main for easy access of the main function
 
 #include <bits/stdc++.h>
 #include "Image_Class.h"
@@ -32,7 +38,8 @@ int main ()
 {
     string filename;
 
-    while(true){
+    while(true)
+    {
         cout << "Pls enter image name to filter it: ";
         cin >> filename;
         if(validname(filename)){
