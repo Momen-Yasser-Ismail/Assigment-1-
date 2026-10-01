@@ -567,6 +567,10 @@ void save(Image &image, string &name){
         cout << "and specify extension .jpg, .bmp, .png, .tga: ";
         string filename;
         cin >> filename;
+        while(!validname(filename)){
+            cout << "Pls enter valid name :(: ";
+            cin >> filename;
+        } 
         name = filename;
         image.saveImage(filename);
         cout << "Image saved successfully :)\n";
