@@ -1,8 +1,8 @@
 // Header 
-// Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip,
-// Ali Yasser         id: 20250407  Filters: Black and white, Rotate,
-// Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken,
-// Mo'men Yasser      id: 20251441  Filters: Frame, Resize, 
+// Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip
+// Ali Yasser         id: 20250407  Filters: Black and white, Rotate
+// Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken
+// Mo'men Yasser      id: 20251441  Filters: Frame, Resize
 
 #include <bits/stdc++.h>
 #include "Image_Class.h"
@@ -109,7 +109,7 @@ void Invert(Image &img)
     }
 }
 
-void frame (Image &image)
+void frame (Image &image) 
 {
     int type_of_frame; // Normal frame or Fancy frame
     cout << "Choose 1 for normal frame or 2 for fancy frame: ";
@@ -204,10 +204,12 @@ void frame (Image &image)
                 break;
         }
 
-        int outerThick = image.width * 0.05;
-        int innerOffset = image.width * 0.1;
-        int lineThick = image.width*0.03;
-        int cornerSize = image.width*0.2; 
+        int base = min(image.width, image.height);
+
+        int outerThick  = base * 0.03;
+        int innerOffset = outerThick + static_cast<int>(base * 0.02);
+        int lineThick   = max(1, static_cast<int>(base * 0.01));
+        int cornerSize  = base * 0.08;
 
         for (int i = 0; i < image.width; ++i) 
         {
@@ -257,7 +259,6 @@ void flip(Image &image, bool h){
         }
     }
 }
-
 
 void rotate(Image &img)
 {
@@ -318,6 +319,7 @@ void rotate(Image &img)
     }
     cout << "Invalid input :( Try again form the menu\n";
 }
+
 void lighten_darken(Image &img)
 {
 
@@ -550,6 +552,7 @@ void displaymenu(Image &image, string &name){
             
         } while (input != 0);
 }
+
 void save(Image &image, string &name){
     cout << "1. Save on the same file (replace the original image)\n";
     cout << "2. Change file name\nEnter your choice: ";
