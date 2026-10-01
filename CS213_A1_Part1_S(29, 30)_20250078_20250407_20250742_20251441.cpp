@@ -431,32 +431,37 @@ void resize(Image &image)
     image = new_image;
 }
 
-void displaymenu(Image &image, string &name){
-
+void displaymenu(Image &image, string &name)
+{
     int input = 1;
-    do{
+    bool saved = true;
+    do
+    {
         vector<string> filters = {"Grayscale            ", "Black and White      ", "Invert Colors        ", "Frame                ", "Flip                 ", "Rotate               ",
             "Brightness Adjustment", "Resize               ", "Merge Images", "Edge Detection", "Crop", "Blur", "Sunlight Effect", 
             "Old TV Effect", "Purple Tint", "infrared", "Skew", "Oil Painting"};
            
             cout << "########### Menu ############\n";
-
             cout << "*****************************\n";
+
             for(int i = 0; i < 8; i++)
             {
                 cout << "***";
                 cout << i+1 << "." << filters[i] << "***\n";
             }
+
             cout << "*****************************\n";
-            cout << "20.save image\n";
-            cout << "22.exit\n";
-            cout << "21.Load new image\n";
+            cout << "9.save image\n";
+            cout << "10.Load new image\n";
+            cout << "11.exit\n";
             cout << "Enter your choice: ";
+
             int filter_num;
             string s;
             cin >> s;
 
-            if(s[0] - '0' >= 10 || s.size() > 2 || (s.size() == 2 && s[1]-'0' >= 3)){
+            if(s[0] - '0' >= 10 || s.size() > 2 || (s.size() == 2 && s[1]-'0' >=2))
+            {
                 cout << "Invalid input :( Try again\n";
                 continue;
             } 
@@ -465,67 +470,76 @@ void displaymenu(Image &image, string &name){
             
             switch(filter_num)
             {
-                case 22:
-                    cout << "1.Save current image\n";
-                    cout << "2.Don't save\n";
-                    cout << "Enter your choice: ";
-                    int x;
-                    cin >> x;
-
-                    if(x == 1){
-                        save(image, name);
-                        return;
-                    } else if (x == 2){
-                        // input = 0;
-                        cout << "Thx \n";
-                        return;
-                    } else {
-                        cout << "Invalid input :( Try again\n";
-                    }
-                    break;
                 case 1:
+                {
                     grayscale(image);
-                    cout << "Grayscale filter applied successfully :)\n";
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
                     break;
+                }
                 case 2:
+                {
                     black_and_white(image);
-                    cout << "Black & white filter applied successfully :)\n";
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
                     break;
+                }
                 case 3:
+                {
                     Invert(image);
-                    cout << "Invert filter applied successfully :)\n";
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
                     break;
+                }
                 case 4:
+                {
                     frame(image);
-                    cout << "Frame added successfully :)\n";
-                    break;
-                case 5:{
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;  
+                }
+                case 5:
+                {
                     int c;
                     cout << 1 << ".Horizontally\n" << 2 << ".Vertically\n";
                     cout << "Enter your choice: ";
                     cin >> c;
                     flip(image, c-1);
-                    cout << "Flip filter applied successfully :)\n";
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
                     break;
                 }  
                 case 6:
+                {
                     rotate(image);
-                    cout << "fotate filter applied successfully :)\n";
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
                     break;
+                }
                 case 7:
+                {
                     lighten_darken(image);
                     cout << "Filter applied successfully :)\n";
+                    saved = false;
                     break;
+                }
                 case 8:
+                {
                     resize(image);
-                    cout << "Resize filter applied successfully :)\n";
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
                     break;
-                case 20:{
+                }
+                case 9:
+                {
                     save(image, name);
+                    saved = true;
                     break;
-                } case 21:{
+                } 
+                case 10:
+                {
                     cout << "Do you want to save the changes to the current image before uploading a new one?\n";
-                    cout << "1.Yes\n2.No";
+                    cout << "1.Yes\n2.No\n";
                     cout << "Enter Your choice: ";
                     int x;
                     cin >> x;
@@ -533,10 +547,12 @@ void displaymenu(Image &image, string &name){
                         save(image, name);
                     }
                     string filename;
-                    while(true){
+                    while(true)
+                    {
                         cout << "Pls enter new image name to filter it: ";
                         cin >> filename;
-                        if(validname(filename)){
+                        if(validname(filename))
+                        {
                             break;
                         }
                         cout << "Invalid file name :(\n";
@@ -545,45 +561,88 @@ void displaymenu(Image &image, string &name){
                     image = im;
                     name = filename;
                 }
+                case 11:
+                {
+                    if (!saved)
+                    {
+                        cout << "1.Save current image\n";
+                        cout << "2.Don't save\n";
+                        cout << "Enter your choice: ";
+                        int x;
+                        cin >> x;
+
+                        if(x == 1)
+                        {
+                            save(image, name);
+                            return;
+                        } 
+                        else if (x == 2)
+                        {
+                            // input = 0;
+                            cout << "Thx \n";
+                            return;
+                        } 
+                        else 
+                        {
+                            cout << "Invalid input :( Try again\n";
+                        }
+                    }
+                    else 
+                    {
+                        cout << "Thx \n";
+                        return;
+                    }
+
+                    break;
+                }
                 default:
+                {
                     cout << "Pls enter valid number :(\nTry again :)\n";
                     break;
+                }
             }
             
         } while (input != 0);
 }
 
-void save(Image &image, string &name){
+void save(Image &image, string &name)
+{
     cout << "1. Save on the same file (replace the original image)\n";
     cout << "2. Change file name\nEnter your choice: ";
+
     int x;
     cin >> x;
-    if(x == 1){
+
+    if(x == 1)
+    {
         image.saveImage(name);
         cout << "Image saved successfully :)\n";
 
-    } else if(x == 2) {
+    } 
+    else if(x == 2) 
+    {
         cout << "Pls enter image name to store new image\n";
         cout << "and specify extension .jpg, .bmp, .png, .tga: ";
+
         string filename;
         cin >> filename;
-        while(!validname(filename)){
-            cout << "Pls enter valid name :(: ";
+
+        while (!validname(filename))
+        {
+            cout << "Pls enter a valid name!: ";
             cin >> filename;
-        } 
+        }
+
         name = filename;
         image.saveImage(filename);
+
         cout << "Image saved successfully :)\n";
-    } else {
+    } 
+    else 
+    {
         cout << "Invalid input :(\nPls try again\n";
         save(image, name);
     }
 }
-bool validname(const string& filename) {
-    const char* extension = strrchr(filename.c_str(), '.');
-    if (extension == nullptr) {
-        cout << "Invalid filename: " << filename << endl;
-        return false;
-    }  
-    return true;   
-}
+
+bool validname(const string& filename) 
