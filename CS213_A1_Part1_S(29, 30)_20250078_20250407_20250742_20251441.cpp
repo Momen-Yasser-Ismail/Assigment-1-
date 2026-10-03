@@ -653,3 +653,12 @@ void save(Image &image, string &name)
 }
 
 bool validname(const string& filename) 
+{
+    const char* extension = strrchr(filename.c_str(), '.');
+    if (extension == nullptr) 
+    {
+        cout << "Invalid filename: " << filename << endl;
+        return false;
+    }
+    return true;
+}
