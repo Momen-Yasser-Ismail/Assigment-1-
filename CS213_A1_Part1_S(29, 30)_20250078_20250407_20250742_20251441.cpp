@@ -29,7 +29,6 @@ void lighten_darken(Image &img);
 // Mo'men filters 
 void frame (Image &image);
 void resize(Image &image);
-void blur (Image &image);
 
 void displaymenu(Image &image, string& name);
 void save(Image &image, string &name);
@@ -437,70 +436,6 @@ void resize(Image &image)
     }
 
     image = new_image;
-}
-
-void blur (Image &image)
-{
-    int width = image.width;
-    int height = image.height;
-
-    int level_of_blur; 
-    cout << "Choose the level of blurring: ";
-    cin >> level_of_blur;
-
-    if (level_of_blur <= 0) return; // No blur needed if level is 0 or negative
-
-    int radius = level_of_blur;
-    int kernel1D = 2 * radius + 1; 
-
-    Image temp = image;
-    Image result = image;
-
-    // PASS 1: Horizontal Blur (writes from image into temp)
-    for (int y = 0; y < height; ++y) 
-    {
-        for (int x = 0; x < width; ++x) 
-        {
-            int sumR = 0, sumG = 0, sumB = 0;
-
-            for (int r = -radius; r <= radius; ++r) 
-            {
-                int sampleX = max(0, min(x + r, width - 1));
-
-                sumR += image(sampleX, y, 0); 
-                sumG += image(sampleX, y, 1); 
-                sumB += image(sampleX, y, 2); 
-            }
-
-            temp(x, y, 0) = sumR / kernel1D;
-            temp(x, y, 1) = sumG / kernel1D;
-            temp(x, y, 2) = sumB / kernel1D;
-        }
-    }
-
-    // PASS 2: Vertical Blur (writes from temp into result)
-    for (int y = 0; y < height; ++y) 
-    {
-        for (int x = 0; x < width; ++x) 
-        {
-            int sumR = 0, sumG = 0, sumB = 0;
-
-            for (int r = -radius; r <= radius; ++r) 
-            {
-                int sampleY = max(0, min(y + r, height - 1));
-
-                sumR += temp(x, sampleY, 0);
-                sumG += temp(x, sampleY, 1);
-                sumB += temp(x, sampleY, 2);
-            }
-
-            result(x, y, 0) = sumR / kernel1D;
-            result(x, y, 1) = sumG / kernel1D;
-            result(x, y, 2) = sumB / kernel1D;
-        }
-    }
-
-    image = result;
 }
 
 void displaymenu(Image &image, string &name)
