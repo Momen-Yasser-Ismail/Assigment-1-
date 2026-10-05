@@ -22,6 +22,7 @@ void sepia(Image &image);
 // Ali filters
 void rotate(Image &img);
 void black_and_white(Image &img);
+void Detact_Image_Edges(Image &img);
 
 // Yehia filters
 void Invert(Image &img);
@@ -514,6 +515,49 @@ void OilPainting(Image& image, int radius = 2, int numLevels = 20) {
     }
 }
 
+void Detact_Image_Edges(Image &img)
+{
+    for (int i = 0; i < img.width; i++)
+    {
+        for (int j = 0; j < img.height; j++)
+        {
+
+            unsigned int r = img(i, j, 0);
+            unsigned int g = img(i, j, 1);
+            unsigned int b = img(i, j, 2);
+
+            unsigned int gray = (r + g + b) / 3;
+            img(i, j, 0) = gray;
+            img(i, j, 1) = gray;
+            img(i, j, 2) = gray;
+        }
+    }
+    Image new_image(img.width, img.height);
+    int different = 30;
+    for (int i = 0; i < img.width - 1; i++)
+    {
+        for (int j = 0; j < img.height - 1; j++)
+        {
+            int diffX = abs(img(i, j, 0) - img(i + 1, j, 0));
+            int diffY = abs(img(i, j, 0) - img(i, j + 1, 0));
+
+            if (diffX > different || diffY > different)
+            {
+                new_image(i, j, 0) = 0;
+                new_image(i, j, 1) = 0;
+                new_image(i, j, 2) = 0;
+            }
+            else
+            {
+                new_image(i, j, 0) = 255;
+                new_image(i, j, 1) = 255;
+                new_image(i, j, 2) = 255;
+            }
+        }
+    }
+    img = new_image;
+}
+
 void displaymenu(Image &image, string &name)
 {
     int input = 1;
@@ -628,31 +672,18 @@ void displaymenu(Image &image, string &name)
                 case 9:
                 {
                     //merge function Adham
-                    
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
                 }
                 case 10:
                 {
-                    //Edge Detectoin function Ali
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
+                    Detact_Image_Edges(Image);
                 }
                 case 11:
                 {
                     // Crop function Yehia
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
                 }
                 case 12:
                 {
                     // Blur function Moamen
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
                 } 
                 case 13:
                 {
@@ -664,30 +695,18 @@ void displaymenu(Image &image, string &name)
                 case 14:
                 {
                     // old tv Ali
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
                 }
                 case 15:
                 {
                     // Purple Tint Yehia
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
                 } 
                 case 16:
                 {
                     // Infrared Moamen
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
                 }
                 case 17:
                 {
                     // Skew
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
                 }
                 case 18:
                 {

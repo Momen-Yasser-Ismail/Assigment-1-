@@ -438,6 +438,7 @@ void resize(Image &image)
     image = new_image;
 }
 
+
 void displaymenu(Image &image, string &name)
 {
     int input = 1;
