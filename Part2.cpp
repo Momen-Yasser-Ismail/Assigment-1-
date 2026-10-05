@@ -691,18 +691,30 @@ void displaymenu(Image &image, string &name)
                 case 9:
                 {
                     //merge function Adham
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 }
                 case 10:
                 {
                     Detact_Image_Edges(Image);
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 }
                 case 11:
                 {
                     // Crop function Yehia
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 }
                 case 12:
                 {
                     // Blur function Moamen
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 } 
                 case 13:
                 {
@@ -714,18 +726,30 @@ void displaymenu(Image &image, string &name)
                 case 14:
                 {
                     televisions(Image);
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 }
                 case 15:
                 {
                     // Purple Tint Yehia
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 } 
                 case 16:
                 {
                     // Infrared Moamen
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 }
                 case 17:
                 {
                     // Skew
+                    cout << "Filter applied successfully :)\n";
+                    saved = false;
+                    break;
                 }
                 case 18:
                 {
