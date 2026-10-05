@@ -23,6 +23,7 @@ void sepia(Image &image);
 void rotate(Image &img);
 void black_and_white(Image &img);
 void Detact_Image_Edges(Image &img);
+void televisions(Image &img);
 
 // Yehia filters
 void Invert(Image &img);
@@ -558,6 +559,24 @@ void Detact_Image_Edges(Image &img)
     img = new_image;
 }
 
+void televisions(Image &img)
+{
+    for (int i = 0; i < img.width; i++)
+    {
+        for (int j = 0; j < img.height; j++)
+        {
+
+            for (int k = 0; k < 3; k++)
+            {
+                if (j % 4 == 0)
+                {
+                    img(i, j, k) = img(i, j, k) * 0.5;
+                }
+            }
+        }
+    }
+}
+
 void displaymenu(Image &image, string &name)
 {
     int input = 1;
@@ -694,7 +713,7 @@ void displaymenu(Image &image, string &name)
                 }
                 case 14:
                 {
-                    // old tv Ali
+                    televisions(Image);
                 }
                 case 15:
                 {
