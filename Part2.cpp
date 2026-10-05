@@ -579,14 +579,9 @@ void televisions(Image &img)
 
 void displaymenu(Image &image, string &name)
 {
-    int input = 1;
     bool saved = true;
     do
-    {
-        // vector<string> filters = {"Grayscale            ", "Black and White      ", "Invert Colors        ", "Frame                ", "Flip                 ", "Rotate               ",
-        //     "Brightness Adjustment", "Resize               ", "Merge Images", "Edge Detection", "Crop", "Blur", "Sunlight Effect", 
-        //     "Old TV Effect", "Purple Tint", "infrared", "Skew", "Oil Painting"};
-           
+    {      
             cout << "########### Menu ############\n";
             cout << "*****************************\n";
             cout << "***1.Grayscale            ***\n";
@@ -691,6 +686,7 @@ void displaymenu(Image &image, string &name)
                 case 9:
                 {
                     //merge function Adham
+                    // 
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
