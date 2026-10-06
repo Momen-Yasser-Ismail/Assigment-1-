@@ -906,7 +906,6 @@ void displaymenu(Image &image, string &name)
                 }
                 case 9: // Merge Filter
                 {
-                    // Adham
                     string filename;
                     cout << "Pls enter filename of the second image to merge with: ";
                     cin >> filename;
@@ -946,14 +945,14 @@ void displaymenu(Image &image, string &name)
                 }
                 case 11: // Crop Filter
                 {
-                    void crop(Image);
+                    crop(Image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
                 case 12: // Blur Filter
                 {
-                    void blur(image);
+                    blur(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
@@ -974,21 +973,21 @@ void displaymenu(Image &image, string &name)
                 }
                 case 15:
                 {
-                    void purple_effect(Image);
+                    purple_effect(Image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 } 
                 case 16: // Infrared Filter
                 {
-                    void infrared(image);
+                    infrared(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
                 case 17: // Skew Filter
                 {
-                    void skewImage(image);
+                    skewImage(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
