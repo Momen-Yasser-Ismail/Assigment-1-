@@ -17,6 +17,7 @@ using namespace std;
 // Adham filters
 void grayscale(Image &image);
 void flip(Image &image, bool h);
+void merge(Image &image, Image &image2, bool apply_resize);
 void sepia(Image &image);
 
 // Ali filters
@@ -413,6 +414,31 @@ void resize(Image &image, int new_width, int new_height)
 
     image = new_image;
 }
+
+void merge(Image &image, Image &image2, bool apply_resize){
+    if(apply_resize){
+        int height = max(image.height, image2.height);
+        int width = max(image.width, image2.width);
+
+        resize(image, width, height);
+        resize(image2, width, height);
+    }
+
+    int height = min(image.height, image2.height);
+    int width = min(image.width, image2.width);
+
+    Image res(width, height);
+
+    for(int i = 0;i  < width; i++){
+        for(int j = 0; j < height; j++){
+            for(int k = 0; k < 3; k++){
+                res(i, j, k) = (image(i, j, k) + image2(i, j, k))/2;
+            }
+        }
+    }
+    image = res;
+}
+
 
 void sepia(Image &image)
 {
@@ -841,6 +867,32 @@ void displaymenu(Image &image, string &name)
                 case 9: // Merge Filter
                 {
                     // Adham
+                    string filename;
+                    cout << "Pls enter filename of the second image to merge with: ";
+                    cin >> filename;
+                    while(!validname(filename)){
+                        cout << "Pls enter valid filename: ";
+                        cin >> filename;
+                    }
+                    Image image2(filename);
+                    if(image.width != image2.width || image.height != image2.height){
+                        cout << "Two images are not the same size.\n";
+                        cout << "1.Resize the smaller one to the larger.\n";
+                        cout << "2.Crop the larger one to the smaller one.\n";
+                        int x;
+                        cin >> x;
+                        if(x == 1){
+                            merge(image, image2, true);
+                        } else if(x == 2){
+                            merge(image, image2, false);
+                        } else {
+                            cout << "Invalid input backing to the menu....\n";
+                            break;
+                        }
+                    } else{
+                        merge(image, image2, false);
+                    }
+                    
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
