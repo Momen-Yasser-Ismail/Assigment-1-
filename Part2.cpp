@@ -1,9 +1,9 @@
 // Header 
 
 // Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip
-// Ali Yasser         id: 20250407  Filters: Black and white, Rotate
+// Ali Yasser         id: 20250407  Filters: Black and white, Rotate, Detect Image Edges and Televisions
 // Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken
-// Mo'men Yasser      id: 20251441  Filters: Frame, Resize
+// Mo'men Yasser      id: 20251441  Filters: Frame, Resize, Blur and Infrared
 
 // File Details:
 // The file contatins the C++ code of Assigment 1, we included the libaries then we put the functions and we specifed which one did which function
