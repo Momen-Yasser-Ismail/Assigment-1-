@@ -31,10 +31,13 @@ void lighten_darken(Image &img);
 
 // Mo'men filters 
 void frame (Image &image);
-void resize(Image &image);
+void resize(Image &image, int new_width, int new_height);
+void blur(Image &image);
+void infrared(Image& image);
 
 // Bounes filters
-void OilPainting(Image& image, int radius, int numLevels) ;
+void OilPainting(Image& image, int radius, int numLevels);
+void skewImage(Image& image);
 
 void displaymenu(Image &image, string& name);
 void save(Image &image, string &name);
@@ -129,9 +132,9 @@ void frame (Image &image)
 
     if (type_of_frame == 1)
     {
-        int framewidth; // Width of the frame in pixels
-        cout << "Please enter the frame width you want: ";
-        cin >> framewidth;
+        int minDimension = min(image.width, image.height);
+        double framePercentage = 0.03; 
+        int framewidth = max(1, static_cast<int>(minDimension * framePercentage));
 
         int color_of_the_frame; // Color of the frame
         cout << "Choose the color of the frame:" << endl;
@@ -370,42 +373,10 @@ void lighten_darken(Image &img)
     }
 }
 
-void resize(Image &image)
+void resize(Image &image, int new_width, int new_height)
 {
-    int way_of_input;
-
-    cout << "Choose 1 to enter dimensions or 2 for a scale factor: ";
-    cin >> way_of_input;
-
     int old_width = image.width;
     int old_height = image.height;
-
-    int new_width, new_height;
-
-    if (way_of_input == 1)
-    {
-        cout << "Enter new dimensions (e.g. 800x600): ";
-
-        char separator;
-        cin >> new_width >> separator >> new_height;
-    }
-    else
-    {
-        float scale;
-
-        cout << "Enter scale factor (e.g. 0.5 for half, 2.0 for double): ";
-        cin >> scale;
-
-        if (scale <= 0)
-        {
-            cout << "Scale factor must be greater than 0!" << endl;
-            return;
-        }
-
-        new_width = static_cast<int>(old_width * scale);
-        new_height = static_cast<int>(old_height * scale);
-
-    }
 
     float width_ratio = static_cast<float>(old_width) / new_width;
     float height_ratio = static_cast<float>(old_height) / new_height;
@@ -455,65 +426,6 @@ void sepia(Image &image)
         }
     }
     return;
-}
-
-void OilPainting(Image& image, int radius = 2, int numLevels = 20) {
-    int width = image.width;
-    int height = image.height;
-
-    Image original = image;
-
-    vector<int> intensityCount(numLevels);
-    vector<int> sumR(numLevels);
-    vector<int> sumG(numLevels);
-    vector<int> sumB(numLevels);
-
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-
-            fill(intensityCount.begin(), intensityCount.end(), 0);
-            fill(sumR.begin(), sumR.end(), 0);
-            fill(sumG.begin(), sumG.end(), 0);
-            fill(sumB.begin(), sumB.end(), 0);
-
-            for (int dy = -radius; dy <= radius; ++dy) {
-                for (int dx = -radius; dx <= radius; ++dx) {
-                    int nx = x + dx;
-                    int ny = y + dy;
-
-                    if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-                        int r = original(nx, ny, 0);
-                        int g = original(nx, ny, 1);
-                        int b = original(nx, ny, 2);
-
-                        int intensity = (r + g + b) / 3;
-                        int bucket = (intensity * numLevels) / 256;
-                        if (bucket >= numLevels) {
-                            bucket = numLevels - 1;
-                        }
-
-                        intensityCount[bucket]++;
-                        sumR[bucket] += r;
-                        sumG[bucket] += g;
-                        sumB[bucket] += b;
-                    }
-                }
-            }
-            int maxBucket = 0;
-            int maxCount = 0;
-            for (int i = 0; i < numLevels; ++i) {
-                if (intensityCount[i] > maxCount) {
-                    maxCount = intensityCount[i];
-                    maxBucket = i;
-                }
-            }
-            if (maxCount > 0) {
-                image(x, y, 0) = sumR[maxBucket] / maxCount;
-                image(x, y, 1) = sumG[maxBucket] / maxCount;
-                image(x, y, 2) = sumB[maxBucket] / maxCount;
-            }
-        }
-    }
 }
 
 void Detact_Image_Edges(Image &img)
@@ -577,37 +489,250 @@ void televisions(Image &img)
     }
 }
 
+void blur(Image &image)
+{
+    int width = image.width;
+    int height = image.height;
+
+    double percentage; 
+    cout << "Enter blur percentage: ";
+    cin >> percentage;
+
+    if (percentage <= 0) return; // No blur needed
+
+    int maxRadius = max(1, min(width, height) / 20); 
+    int radius = max(1, static_cast<int>((percentage / 100.0) * maxRadius));
+    int kernel1D = 2 * radius + 1; 
+
+    Image temp = image;
+    Image result = image;
+
+    // PASS 1: Fast Horizontal Blur (O(1) per pixel via sliding window)
+    for (int j = 0; j < height; ++j) 
+    {
+        int sumR = 0, sumG = 0, sumB = 0;
+
+        // Initialize window sum for the first pixel (i = 0)
+        for (int r = -radius; r <= radius; ++r) 
+        {
+            int sampleI = max(0, min(r, width - 1));
+            sumR += image(sampleI, j, 0);
+            sumG += image(sampleI, j, 1);
+            sumB += image(sampleI, j, 2);
+        }
+
+        temp(0, j, 0) = sumR / kernel1D;
+        temp(0, j, 1) = sumG / kernel1D;
+        temp(0, j, 2) = sumB / kernel1D;
+
+        // Slide the window across row j
+        for (int i = 1; i < width; ++i) 
+        {
+            int addI = min(i + radius, width - 1);
+            int removeI = max(0, i - radius - 1);
+
+            sumR += image(addI, j, 0) - image(removeI, j, 0);
+            sumG += image(addI, j, 1) - image(removeI, j, 1);
+            sumB += image(addI, j, 2) - image(removeI, j, 2);
+
+            temp(i, j, 0) = sumR / kernel1D;
+            temp(i, j, 1) = sumG / kernel1D;
+            temp(i, j, 2) = sumB / kernel1D;
+        }
+    }
+
+    // PASS 2: Fast Vertical Blur (O(1) per pixel via sliding window)
+    for (int i = 0; i < width; ++i) 
+    {
+        int sumR = 0, sumG = 0, sumB = 0;
+
+        // Initialize window sum for the top pixel (j = 0)
+        for (int r = -radius; r <= radius; ++r) 
+        {
+            int sampleJ = max(0, min(r, height - 1));
+            sumR += temp(i, sampleJ, 0);
+            sumG += temp(i, sampleJ, 1);
+            sumB += temp(i, sampleJ, 2);
+        }
+
+        result(i, 0, 0) = sumR / kernel1D;
+        result(i, 0, 1) = sumG / kernel1D;
+        result(i, 0, 2) = sumB / kernel1D;
+
+        // Slide the window down column i
+        for (int j = 1; j < height; ++j) 
+        {
+            int addJ = min(j + radius, height - 1);
+            int removeJ = max(0, j - radius - 1);
+
+            sumR += temp(i, addJ, 0) - temp(i, removeJ, 0);
+            sumG += temp(i, addJ, 1) - temp(i, removeJ, 1);
+            sumB += temp(i, addJ, 2) - temp(i, removeJ, 2);
+
+            result(i, j, 0) = sumR / kernel1D;
+            result(i, j, 1) = sumG / kernel1D;
+            result(i, j, 2) = sumB / kernel1D;
+        }
+    }
+
+    image = result;
+}
+
+void infrared(Image& image)
+{
+    for (int j = 0; j < image.height; ++j) 
+    {
+        for (int i = 0; i < image.width; ++i) 
+        {
+            int r = image.getPixel(i, j, 0); 
+            int g = image.getPixel(i, j, 1); 
+            int b = image.getPixel(i, j, 2); 
+
+            image.setPixel(i, j, 0, 255);             
+            image.setPixel(i, j, 1, 255 - r);    
+            image.setPixel(i, j, 2, 255 - r);    
+        }
+    }
+}
+
+void skewImage(Image& image)
+{
+    double degree;
+    cout << "The degree of skewness: ";
+    cin >> degree;
+
+    double rad = degree * (3.14159265358979323846 / 180.0);
+    double tan_rad = tan(rad);
+
+    int maxOffset = static_cast<int>(image.height * tan_rad);
+
+    int newWidth = image.width + maxOffset;
+    int newHeight = image.height;
+
+    Image skewedImage(newWidth, newHeight);
+    for (int j = 0; j < newHeight; ++j) 
+    {
+        for (int i = 0; i < newWidth; ++i) 
+        {
+            skewedImage.setPixel(i, j, 0, 255);
+            skewedImage.setPixel(i, j, 1, 255);
+            skewedImage.setPixel(i, j, 2, 255);
+        }
+    }
+
+    for (int j = 0; j < image.height; ++j) 
+    {
+        int shifti = static_cast<int>((image.height - 1 - j) * tan_rad);
+
+        for (int i = 0; i < image.width; ++i) 
+        {
+            int newi = i + shifti;
+
+            if (newi >= 0 && newi < newWidth) 
+            {
+                skewedImage.setPixel(newi, j, 0, image.getPixel(i, j, 0)); //[cite: 2]
+                skewedImage.setPixel(newi, j, 1, image.getPixel(i, j, 1)); //[cite: 2]
+                skewedImage.setPixel(newi, j, 2, image.getPixel(i, j, 2)); //[cite: 2]
+            }
+        }
+    }
+
+    image = skewedImage;
+}
+
+void OilPainting(Image& image, int radius = 2, int numLevels = 20) 
+{
+    int width = image.width;
+    int height = image.height;
+
+    Image original = image;
+
+    vector<int> intensityCount(numLevels);
+    vector<int> sumR(numLevels);
+    vector<int> sumG(numLevels);
+    vector<int> sumB(numLevels);
+
+    for (int y = 0; y < height; ++y) 
+    {
+        for (int x = 0; x < width; ++x) 
+        {
+            fill(intensityCount.begin(), intensityCount.end(), 0);
+            fill(sumR.begin(), sumR.end(), 0);
+            fill(sumG.begin(), sumG.end(), 0);
+            fill(sumB.begin(), sumB.end(), 0);
+
+            for (int dy = -radius; dy <= radius; ++dy) 
+            {
+                for (int dx = -radius; dx <= radius; ++dx) 
+                {
+                    int nx = x + dx;
+                    int ny = y + dy;
+
+                    if (nx >= 0 && nx < width && ny >= 0 && ny < height) 
+                    {
+                        int r = original(nx, ny, 0);
+                        int g = original(nx, ny, 1);
+                        int b = original(nx, ny, 2);
+
+                        int intensity = (r + g + b) / 3;
+                        int bucket = (intensity * numLevels) / 256;
+
+                        if (bucket >= numLevels) 
+                        {
+                            bucket = numLevels - 1;
+                        }
+
+                        intensityCount[bucket]++;
+                        sumR[bucket] += r;
+                        sumG[bucket] += g;
+                        sumB[bucket] += b;
+                    }
+                }
+            }
+
+            int maxBucket = 0;
+            int maxCount = 0;
+
+            for (int i = 0; i < numLevels; ++i) 
+            {
+                if (intensityCount[i] > maxCount) 
+                {
+                    maxCount = intensityCount[i];
+                    maxBucket = i;
+                }
+            }
+            if (maxCount > 0) 
+            {
+                image(x, y, 0) = sumR[maxBucket] / maxCount;
+                image(x, y, 1) = sumG[maxBucket] / maxCount;
+                image(x, y, 2) = sumB[maxBucket] / maxCount;
+            }
+        }
+    }
+}
+
 void displaymenu(Image &image, string &name)
 {
     bool saved = true;
     do
     {      
-            cout << "########### Menu ############\n";
-            cout << "*****************************\n";
-            cout << "***1.Grayscale            ***\n";
-            cout << "***2.Black and White      ***\n";
-            cout << "***3.Invert Colors        ***\n";
-            cout << "***4.Frame                ***\n";
-            cout << "***5.flip                 ***\n";
-            cout << "***6.rotate               ***\n";
-            cout << "***7.Brightness Adjustment***\n";
-            cout << "***8.Resize               ***\n";
-            cout << "***9.Merge two Images     ***\n";
-            cout << "***10.Edge Detection      ***\n";
-            cout << "***11.Crop                ***\n";
-            cout << "***12.Blur                ***\n";
-            cout << "***13.Sunlight Effect     ***\n";
-            cout << "***14.Old TV Effect       ***\n";
-            cout << "***15.Purple Tint         ***\n";
-            cout << "***16.Infrared Effect     ***\n";
-            cout << "***17.Skew                ***\n";
-            cout << "***18.Oil painting        ***\n";
-            cout << "*****************************\n";
-            cout << "***19.save image          ***\n";
-            cout << "***20.Load new image      ***\n";
-            cout << "***21.exit                ***\n";
-            cout << "*****************************\n";
-            cout << "Enter your choice: ";
+            cout << "   __   __   ___  _   _  _   _ \n";
+            cout << "  |  |_|  | |  _|| \\ | || | | |\n";
+            cout << "  |       | |  _||  \\| || |_| |\n";
+            cout << "  |__|__|_| |___||_|\\__| \\___/ \n";
+            cout << "-------------------------------------\n";
+            cout << " [01] Grayscale       [02] Black & White\n";
+            cout << " [03] Invert          [04] Frame\n";
+            cout << " [05] Flip            [06] Rotate\n";
+            cout << " [07] Brightness      [08] Resize\n";
+            cout << " [09] Merge           [10] Edge Detect\n";
+            cout << " [11] Crop            [12] Blur\n";
+            cout << " [13] Sunlight        [14] Old TV\n";
+            cout << " [15] Purple Tint     [16] Infrared\n";
+            cout << " [17] Skew            [18] Oil Painting\n";
+            cout << "-------------------------------------\n";
+            cout << " [19] Save  |  [20] Load  |  [21] Exit\n";
+            cout << "-------------------------------------\n";
 
             int filter_num;
             string s;
@@ -623,35 +748,35 @@ void displaymenu(Image &image, string &name)
             
             switch(filter_num)
             {
-                case 1:
+                case 1: // Grayscale Filter
                 {
                     grayscale(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 2:
+                case 2: // Black and White Filter
                 {
                     black_and_white(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 3:
+                case 3: // Invert Filter
                 {
                     Invert(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 4:
+                case 4: // Frame Filter
                 {
                     frame(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;  
                 }
-                case 5:
+                case 5: // Flip Filter
                 {
                     int c;
                     cout << 1 << ".Horizontally\n" << 2 << ".Vertically\n";
@@ -662,64 +787,93 @@ void displaymenu(Image &image, string &name)
                     saved = false;
                     break;
                 }  
-                case 6:
+                case 6: // Rotate Filter
                 {
                     rotate(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 7:
+                case 7: // Ligthen Darken Filter
                 {
                     lighten_darken(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 8:
+                case 8: // Resize Filter
                 {
-                    resize(image);
+                    int way_of_input;
+                    cout << "Choose 1 to enter dimensions or 2 for a scale factor: ";
+                    cin >> way_of_input;
+
+                    int new_width, new_height;
+
+                    if (way_of_input == 1)
+                    {
+                        cout << "Enter new dimensions (e.g. 800x600): ";
+
+                        char separator;
+                        cin >> new_width >> separator >> new_height;
+                    }
+                    else
+                    {
+                        float scale;
+
+                        cout << "Enter scale factor (e.g. 0.5 for half, 2.0 for double): ";
+                        cin >> scale;
+
+                        if (scale <= 0)
+                        {
+                            cout << "Scale factor must be greater than 0!" << endl;
+                            return;
+                        }
+
+                        new_width = static_cast<int>(old_width * scale);
+                        new_height = static_cast<int>(old_height * scale);
+                    }
+
+                    resize(image, new_width, new_height);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 9:
+                case 9: // Merge Filter
                 {
-                    //merge function Adham
-                    // 
+                    // Adham
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 10:
+                case 10: // Detect Image Edges
                 {
                     Detact_Image_Edges(Image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 11:
+                case 11: // Crop Filter
                 {
-                    // Crop function Yehia
+                    // Yehia
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 12:
+                case 12: // Blur Filter
                 {
-                    // Blur function Moamen
+                    void blur(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 } 
-                case 13:
+                case 13: // Sepia Filter
                 {
                     sepia(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 14:
+                case 14: // Television Filter
                 {
                     televisions(Image);
                     cout << "Filter applied successfully :)\n";
@@ -733,34 +887,34 @@ void displaymenu(Image &image, string &name)
                     saved = false;
                     break;
                 } 
-                case 16:
+                case 16: // Infrared Filter
                 {
-                    // Infrared Moamen
+                    void infrared(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 17:
+                case 17: // Skew Filter
                 {
-                    // Skew
+                    void skewImage(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 18:
+                case 18: // OilPainting Filter
                 {
                     OilPainting(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
-                case 19:
+                case 19: // Save
                 {
                     save(image, name);
                     saved = true;
                     break;
                 } 
-                case 20:
+                case 20: // Load New Image
                 {
                     cout << "Do you want to save the changes to the current image before uploading a new one?\n";
                     cout << "1.Yes\n2.No\n";
@@ -786,7 +940,7 @@ void displaymenu(Image &image, string &name)
                     name = filename;
                     break;
                 }
-                case 21:
+                case 21: // Exit
                 {
                     if (!saved)
                     {
