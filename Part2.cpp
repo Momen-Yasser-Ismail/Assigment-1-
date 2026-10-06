@@ -2,7 +2,7 @@
 
 // Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip
 // Ali Yasser         id: 20250407  Filters: Black and white, Rotate, Detect Image Edges and Televisions
-// Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken
+// Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken, crop, purple_effect
 // Mo'men Yasser      id: 20251441  Filters: Frame, Resize, Blur and Infrared
 
 // File Details:
@@ -29,6 +29,8 @@ void televisions(Image &img);
 // Yehia filters
 void Invert(Image &img);
 void lighten_darken(Image &img);
+void crop(Image &img);
+void purple_effect(Image &img);
 
 // Mo'men filters 
 void frame (Image &image);
@@ -497,6 +499,24 @@ void Detact_Image_Edges(Image &img)
     img = new_image;
 }
 
+void crop(Image &img)
+{
+    int x, y, w, h;
+    cout << "Enter the top-left corner coordinates (x, y): ";
+    cin >> x >> y;
+    cout << "Enter the width and height : ";
+    cin >> w >> h;
+    Image cropped_img(w, h);
+    for (int i = 0; i < w; ++i){
+        for (int j = 0; j < h; ++j){
+            for (int k = 0; k < img.channels; ++k){
+                cropped_img(i, j, k) = img(x + i, y + j, k);
+            }
+        }
+    }
+    img = cropped_img;
+}
+
 void televisions(Image &img)
 {
     for (int i = 0; i < img.width; i++)
@@ -617,6 +637,26 @@ void infrared(Image& image)
             image.setPixel(i, j, 0, 255);             
             image.setPixel(i, j, 1, 255 - r);    
             image.setPixel(i, j, 2, 255 - r);    
+        }
+    }
+}
+
+void purple_effect(Image &img){
+    int power_of_effect;
+    cout << "Enter number between 1 to 100 represent power of purple effect : ";
+    cin >> power_of_effect;
+    float ratio = power_of_effect / 100.0;
+    for (int i = 0; i < img.width; ++i){
+        for (int j = 0; j < img.height; ++j){
+            int R = img(i, j, 0);
+            int G = img(i, j, 1);
+            int B = img(i, j, 2);
+            int target_R = min((int)((R * 1.15)+10), 255);
+            int target_G = max((int)((G * 0.75)), 0);
+            int target_B = min((int)((B * 1.30)+20), 255);
+            img(i, j, 0) = (int)(R*(1 - ratio) + (target_R*ratio));
+            img(i, j, 1) = (int)(G*(1 - ratio) + (target_G*ratio));
+            img(i, j, 2) = (int)(B*(1 - ratio) + (target_B*ratio));
         }
     }
 }
@@ -906,7 +946,7 @@ void displaymenu(Image &image, string &name)
                 }
                 case 11: // Crop Filter
                 {
-                    // Yehia
+                    void crop(Image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
@@ -934,7 +974,7 @@ void displaymenu(Image &image, string &name)
                 }
                 case 15:
                 {
-                    // Purple Tint Yehia
+                    void purple_effect(Image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
