@@ -971,7 +971,7 @@ void displaymenu(Image &image, string &name)
                     saved = false;
                     break;
                 }
-                case 15:
+                case 15: // Purple Effect Filter 
                 {
                     purple_effect(Image);
                     cout << "Filter applied successfully :)\n";
