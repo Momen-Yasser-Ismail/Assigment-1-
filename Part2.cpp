@@ -1,8 +1,8 @@
 // Header 
 
-// Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip
+// Adham Abdelrahman  id: 20250078  Filters: Grayscale, Flip, Merge and Sepia
 // Ali Yasser         id: 20250407  Filters: Black and white, Rotate, Detect Image Edges and Televisions
-// Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken, crop, purple_effect
+// Yehia Nabil        id: 20250742  Filters: Invert, lighten_darken, Crop and Purple Effect
 // Mo'men Yasser      id: 20251441  Filters: Frame, Resize, Blur and Infrared
 
 // File Details:
@@ -441,7 +441,6 @@ void merge(Image &image, Image &image2, bool apply_resize){
     image = res;
 }
 
-
 void sepia(Image &image)
 {
     for (int i = 0; i < image.width; i++)
@@ -641,7 +640,8 @@ void infrared(Image& image)
     }
 }
 
-void purple_effect(Image &img){
+void purple_effect(Image &img)
+{
     int power_of_effect;
     cout << "Enter number between 1 to 100 represent power of purple effect : ";
     cin >> power_of_effect;
@@ -895,6 +895,9 @@ void displaymenu(Image &image, string &name)
                             return;
                         }
 
+                        int old_width = image.width;
+                        int old_height = image.height;
+                        
                         new_width = static_cast<int>(old_width * scale);
                         new_height = static_cast<int>(old_height * scale);
                     }
@@ -938,14 +941,14 @@ void displaymenu(Image &image, string &name)
                 }
                 case 10: // Detect Image Edges
                 {
-                    Detact_Image_Edges(Image);
+                    Detact_Image_Edges(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
                 case 11: // Crop Filter
                 {
-                    crop(Image);
+                    crop(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
@@ -966,14 +969,14 @@ void displaymenu(Image &image, string &name)
                 }
                 case 14: // Television Filter
                 {
-                    televisions(Image);
+                    televisions(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
                 }
                 case 15: // Purple Effect Filter 
                 {
-                    purple_effect(Image);
+                    purple_effect(image);
                     cout << "Filter applied successfully :)\n";
                     saved = false;
                     break;
