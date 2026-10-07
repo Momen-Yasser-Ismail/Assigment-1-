@@ -348,15 +348,14 @@ void lighten_darken(Image &img)
     cout << "Enter the rate of change (0-100%): ";
     cin >> rate_of_change;
     double factor = rate_of_change / 100.0;
-    
 
     if (change == 1){ // Lighten the image
-        factor = pow(factor, -1);
+        factor = 1 + factor;
         for (int i = 0; i < img.width; ++i){
             for (int j = 0; j < img.height; ++j){
                 for (int k = 0; k < img.channels; ++k){
                     int color_value = img(i, j, k);
-                    int new_color_value = color_value * factor;
+                    int new_color_value = color_value * factor ;
                     img(i, j, k) = min(new_color_value, 255);
                 }
             }
@@ -364,11 +363,12 @@ void lighten_darken(Image &img)
     }
 
     else if (change == 2){ // Darken the image
+        factor = 1 - factor;
         for (int i = 0; i < img.width; ++i){
             for (int j = 0; j < img.height; ++j){
                 for (int k = 0; k < img.channels; ++k){
                     int color_value = img(i, j, k);
-                    int new_color_value = color_value * factor;
+                    int new_color_value = color_value * factor ;
                     img(i, j, k) = max(new_color_value, 0);
                 }
             }
@@ -782,233 +782,274 @@ void displaymenu(Image &image, string &name)
     bool saved = true;
     do
     {      
-            cout << "   __   __   ___  _   _  _   _ \n";
-            cout << "  |  |_|  | |  _|| \\ | || | | |\n";
-            cout << "  |       | |  _||  \\| || |_| |\n";
-            cout << "  |__|__|_| |___||_|\\__| \\___/ \n";
-            cout << "-------------------------------------\n";
-            cout << " [01] Grayscale       [02] Black & White\n";
-            cout << " [03] Invert          [04] Frame\n";
-            cout << " [05] Flip            [06] Rotate\n";
-            cout << " [07] Brightness      [08] Resize\n";
-            cout << " [09] Merge           [10] Edge Detect\n";
-            cout << " [11] Crop            [12] Blur\n";
-            cout << " [13] Sunlight        [14] Old TV\n";
-            cout << " [15] Purple Tint     [16] Infrared\n";
-            cout << " [17] Skew            [18] Oil Painting\n";
-            cout << "-------------------------------------\n";
-            cout << " [19] Save  |  [20] Load  |  [21] Exit\n";
-            cout << "-------------------------------------\n";
+            cout << "     __   __   ___  _   _  _   _ \n";
+            cout << "    |  |_|  | |  _|| \\ | || | | |\n";
+            cout << "    |       | |  _||  \\| || |_| |\n";
+            cout << "    |__|__|_| |___||_|\\__| \\___/ \n";
+            cout << "_______________________________________\n";
+            cout << "|                                     |\n";
+            cout << "|              MAIN MENU              |\n";
+            cout << "|_____________________________________|\n";
+            cout << "|                                     |\n";
+            cout << "|  [1]   Filters                      |\n";
+            cout << "|  [2]   Save Image                   |\n";
+            cout << "|  [3]   Load Image                   |\n";
+            cout << "|  [4]   Exit                         |\n";
+            cout << "|_____________________________________|\n\n";
+            cout << "Please Enter Your Choice : ";
 
-            int filter_num;
+            int menu_number;
             string s;
             cin >> s;
 
-            if(s[0] - '0' >= 10 || s.size() > 2)
+            if(s[0] - '0' >= 5 || s.size() > 1)
             {
                 cout << "Invalid input :( Try again\n";
                 continue;
             } 
-
-            filter_num = stoi(s);
-            
-            switch(filter_num)
+            menu_number = stoi(s);
+            switch(menu_number)
             {
-                case 1: // Grayscale Filter
+                case 1: // filters
                 {
-                    grayscale(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 2: // Black and White Filter
-                {
-                    black_and_white(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 3: // Invert Filter
-                {
-                    Invert(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 4: // Frame Filter
-                {
-                    frame(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;  
-                }
-                case 5: // Flip Filter
-                {
-                    int c;
-                    cout << 1 << ".Horizontally\n" << 2 << ".Vertically\n";
-                    cout << "Enter your choice: ";
-                    cin >> c;
-                    flip(image, c-1);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }  
-                case 6: // Rotate Filter
-                {
-                    rotate(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 7: // Ligthen Darken Filter
-                {
-                    lighten_darken(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 8: // Resize Filter
-                {
-                    int way_of_input;
-                    cout << "Choose 1 to enter dimensions or 2 for a scale factor: ";
-                    cin >> way_of_input;
+                    cout << "       _____   ___   _     _____  _____  ____   \n";
+                    cout << "      |  ___| |_ _| | |   |_   _|| ____||  _ \\  \n";
+                    cout << "      | |_     | |  | |     | |  |  _|  | |_) | \n";
+                    cout << "      |  _|    | |  | |___  | |  | |___ |  _ <  \n";
+                    cout << "      |_|     |___| |_____| |_|  |_____||_| \\_\\ \n";
+                    cout << "-----------------------------------------------------\n";
+                    cout << " [01] Grayscale Filter      [10] Detect Edge         \n";
+                    cout << " [02] Black & White Filter  [11] Crop Filter         \n";
+                    cout << " [03] Invert Filter         [12] Blur Filter         \n";
+                    cout << " [04] Frame Filter          [13] Sepia Filter        \n";
+                    cout << " [05] Flip Filter           [14] Television Filter   \n";
+                    cout << " [06] Rotate Filter         [15] Purple Effect       \n";
+                    cout << " [07] Lighten / Darken      [16] Infrared Filter     \n";
+                    cout << " [08] Resize Filter         [17] Skew Filter         \n";
+                    cout << " [09] Merge Filter          [18] Oil Painting        \n";
+                    cout << "-----------------------------------------------------\n";
+                    cout << "Select Filter Number : ";
+                    int filter_number;
+                    while (true) {
+                        string st;
+                        cout << "Select Filter Number [1:18] : ";
+                        cin >> st;
 
-                    int new_width, new_height;
+                        try {
+                            size_t pos;
+                            filter_number = stoi(st, &pos);
 
-                    if (way_of_input == 1)
-                    {
-                        cout << "Enter new dimensions (e.g. 800x600): ";
+                            if (pos != s.length() || filter_number < 1 || filter_number > 18) {
+                                cout << "Invalid input :( Try again\n";
+                                continue;
+                            }
+                            break;
 
-                        char separator;
-                        cin >> new_width >> separator >> new_height;
-                    }
-                    else
-                    {
-                        float scale;
-
-                        cout << "Enter scale factor (e.g. 0.5 for half, 2.0 for double): ";
-                        cin >> scale;
-
-                        if (scale <= 0)
-                        {
-                            cout << "Scale factor must be greater than 0!" << endl;
-                            return;
+                        } catch (...) {
+                            cout << "Invalid input :( Try again\n";
+                            continue;
                         }
-
-                        int old_width = image.width;
-                        int old_height = image.height;
-                        
-                        new_width = static_cast<int>(old_width * scale);
-                        new_height = static_cast<int>(old_height * scale);
                     }
-
-                    resize(image, new_width, new_height);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 9: // Merge Filter
-                {
-                    string filename;
-                    cout << "Pls enter filename of the second image to merge with: ";
-                    cin >> filename;
-                    while(!validname(filename)){
-                        cout << "Pls enter valid filename: ";
-                        cin >> filename;
-                    }
-                    Image image2(filename);
-                    if(image.width != image2.width || image.height != image2.height){
-                        cout << "Two images are not the same size.\n";
-                        cout << "1.Resize the smaller one to the larger.\n";
-                        cout << "2.Crop the larger one to the smaller one.\n";
-                        int x;
-                        cin >> x;
-                        if(x == 1){
-                            merge(image, image2, true);
-                        } else if(x == 2){
-                            merge(image, image2, false);
-                        } else {
-                            cout << "Invalid input backing to the menu....\n";
+                    switch(filter_number)
+                    {
+                        case 1: // Grayscale Filter
+                        {
+                            grayscale(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
                             break;
                         }
-                    } else{
-                        merge(image, image2, false);
+                        case 2: // Black and White Filter
+                        {
+                            black_and_white(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 3: // Invert Filter
+                        {
+                            Invert(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 4: // Frame Filter
+                        {
+                            frame(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;  
+                        }
+                        case 5: // Flip Filter
+                        {
+                            int c;
+                            cout << 1 << ".Horizontally\n" << 2 << ".Vertically\n";
+                            cout << "Enter your choice: ";
+                            cin >> c;
+                            flip(image, c-1);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }  
+                        case 6: // Rotate Filter
+                        {
+                            rotate(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 7: // Ligthen Darken Filter
+                        {
+                            lighten_darken(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 8: // Resize Filter
+                        {
+                            int way_of_input;
+                            cout << "Choose 1 to enter dimensions or 2 for a scale factor: ";
+                            cin >> way_of_input;
+
+                            int new_width, new_height;
+
+                            if (way_of_input == 1)
+                            {
+                                cout << "Enter new dimensions (e.g. 800x600): ";
+
+                                char separator;
+                                cin >> new_width >> separator >> new_height;
+                            }
+                            else
+                            {
+                                float scale;
+
+                                cout << "Enter scale factor (e.g. 0.5 for half, 2.0 for double): ";
+                                cin >> scale;
+
+                                if (scale <= 0)
+                                {
+                                    cout << "Scale factor must be greater than 0!" << endl;
+                                    return;
+                                }
+
+                                int old_width = image.width;
+                                int old_height = image.height;
+                                
+                                new_width = static_cast<int>(old_width * scale);
+                                new_height = static_cast<int>(old_height * scale);
+                            }
+
+                            resize(image, new_width, new_height);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 9: // Merge Filter
+                        {
+                            string filename;
+                            cout << "Pls enter filename of the second image to merge with: ";
+                            cin >> filename;
+                            while(!validname(filename)){
+                                cout << "Pls enter valid filename: ";
+                                cin >> filename;
+                            }
+                            Image image2(filename);
+                            if(image.width != image2.width || image.height != image2.height){
+                                cout << "Two images are not the same size.\n";
+                                cout << "1.Resize the smaller one to the larger.\n";
+                                cout << "2.Crop the larger one to the smaller one.\n";
+                                int x;
+                                cin >> x;
+                                if(x == 1){
+                                    merge(image, image2, true);
+                                } else if(x == 2){
+                                    merge(image, image2, false);
+                                } else {
+                                    cout << "Invalid input backing to the menu....\n";
+                                    break;
+                                }
+                            } else{
+                                merge(image, image2, false);
+                            }
+                            
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 10: // Detect Image Edges
+                        {
+                            Detact_Image_Edges(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 11: // Crop Filter
+                        {
+                            crop(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 12: // Blur Filter
+                        {
+                            blur(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        } 
+                        case 13: // Sepia Filter
+                        {
+                            sepia(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 14: // Television Filter
+                        {
+                            televisions(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 15: // Purple Effect Filter 
+                        {
+                            purple_effect(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        } 
+                        case 16: // Infrared Filter
+                        {
+                            infrared(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 17: // Skew Filter
+                        {
+                            skewImage(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
+                        case 18: // OilPainting Filter
+                        {
+                            OilPainting(image);
+                            cout << "Filter applied successfully :)\n";
+                            saved = false;
+                            break;
+                        }
                     }
-                    
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
+                    break;       
                 }
-                case 10: // Detect Image Edges
-                {
-                    Detact_Image_Edges(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 11: // Crop Filter
-                {
-                    crop(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 12: // Blur Filter
-                {
-                    blur(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                } 
-                case 13: // Sepia Filter
-                {
-                    sepia(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 14: // Television Filter
-                {
-                    televisions(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 15: // Purple Effect Filter 
-                {
-                    purple_effect(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                } 
-                case 16: // Infrared Filter
-                {
-                    infrared(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 17: // Skew Filter
-                {
-                    skewImage(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 18: // OilPainting Filter
-                {
-                    OilPainting(image);
-                    cout << "Filter applied successfully :)\n";
-                    saved = false;
-                    break;
-                }
-                case 19: // Save
+                case 2: // Save
                 {
                     save(image, name);
                     saved = true;
                     break;
                 } 
-                case 20: // Load New Image
+                case 3: // Load New Image
                 {
                     cout << "Do you want to save the changes to the current image before uploading a new one?\n";
                     cout << "1.Yes\n2.No\n";
@@ -1034,7 +1075,7 @@ void displaymenu(Image &image, string &name)
                     name = filename;
                     break;
                 }
-                case 21: // Exit
+                case 4: // Exit
                 {
                     if (!saved)
                     {
