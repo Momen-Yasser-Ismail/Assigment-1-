@@ -807,6 +807,7 @@ void displaymenu(Image &image, string &name)
                 cout << "Invalid input :( Try again\n";
                 continue;
             } 
+
             menu_number = stoi(s);
             switch(menu_number)
             {
@@ -828,9 +829,13 @@ void displaymenu(Image &image, string &name)
                     cout << " [08] Resize Filter         [17] Skew Filter         \n";
                     cout << " [09] Merge Filter          [18] Oil Painting        \n";
                     cout << "-----------------------------------------------------\n";
+                    cout << " [19] Undo Filter |  [20] Redo Filter\n";
+                    cout << "-----------------------------------------------------\n";
                     cout << "Select Filter Number : ";
+
                     int filter_number;
-                    while (true) {
+                    while (true) 
+                    {
                         string st;
                         cout << "Select Filter Number [1:18] : ";
                         cin >> st;
@@ -839,17 +844,21 @@ void displaymenu(Image &image, string &name)
                             size_t pos;
                             filter_number = stoi(st, &pos);
 
-                            if (pos != s.length() || filter_number < 1 || filter_number > 18) {
+                            if (pos != s.length() || filter_number < 1 || filter_number > 18) 
+                            {
                                 cout << "Invalid input :( Try again\n";
                                 continue;
                             }
                             break;
 
-                        } catch (...) {
+                        } 
+                        catch (...) 
+                        {
                             cout << "Invalid input :( Try again\n";
                             continue;
                         }
                     }
+                    
                     switch(filter_number)
                     {
                         case 1: // Grayscale Filter
@@ -1038,6 +1047,38 @@ void displaymenu(Image &image, string &name)
                             OilPainting(image);
                             cout << "Filter applied successfully :)\n";
                             saved = false;
+                            break;
+                        }
+                        case 19: // Undo
+                        {
+                            if (undoStack.empty())
+                            {
+                                cout << "Nothing to undo!\n";
+                            }
+                            else
+                            {
+                                redoStack.push(image);
+                                image = undoStack.top();
+                                undoStack.pop();
+                                cout << "Undo performed successfully :)\n";
+                                saved = false;
+                            }
+                            break;
+                        }
+                        case 20: // Redo
+                        {
+                            if (redoStack.empty())
+                            {
+                                cout << "Nothing to redo!\n";
+                            }
+                            else
+                            {
+                                undoStack.push(image);
+                                image = redoStack.top();
+                                redoStack.pop();
+                                cout << "Redo performed successfully :)\n";
+                                saved = false;
+                            }
                             break;
                         }
                     }
