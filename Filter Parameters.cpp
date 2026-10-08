@@ -63,40 +63,13 @@ void Invert(Image &img)
     }
 }
 
-void frame (Image &image, int type_of_frame, int color_of_the_frame) 
+void frame (Image &image, int type_of_frame, int color_of_the_frame, int R, int G, int B)
 {
     if (type_of_frame == 1)
     {
         int minDimension = min(image.width, image.height);
         double framePercentage = 0.03; 
         int framewidth = max(1, static_cast<int>(minDimension * framePercentage));
-
-        int R, G, B;
-        switch (color_of_the_frame) 
-        {
-            case 1: // Black
-                R = 0;   G = 0;   B = 0;
-                break;
-            case 2: // White
-                R = 255; G = 255; B = 255;
-                break;
-            case 3: // Red
-                R = 255; G = 0;   B = 0;
-                break;
-            case 4: // Green
-                R = 0;   G = 255; B = 0;
-                break;
-            case 5: // Blue
-                R = 0;   G = 0;   B = 255;
-                break;
-            case 6: // Yellow
-                R = 255; G = 255; B = 0;
-                break;
-            default:
-                cout << "Invalid choice! Defaulting to Black.\n";
-                R = 0;   G = 0;   B = 0;
-                break;
-        }
 
         for (int i = 0; i < image.width; i++) 
         {
@@ -113,27 +86,6 @@ void frame (Image &image, int type_of_frame, int color_of_the_frame)
     }
     else
     {
-        int R, G, B;
-        switch (color_of_the_frame) 
-        {
-            case 1: // Champagne Gold
-                R = 247; G = 231; B = 206;
-                break;
-            case 2: // Emerald Green
-                R = 4;   G = 99;  B = 7;
-                break;
-            case 3: // Rose Gold
-                R = 183; G = 110; B = 121;
-                break;
-            case 4: // Midnight Navy
-                R = 10;  G = 25;  B = 47;
-                break;
-            default:
-                cout << "Invalid choice! Defaulting to Black.\n";
-                R = 0;   G = 0;   B = 0;
-                break;
-        }
-
         int base = min(image.width, image.height);
 
         int outerThick  = base * 0.03;
