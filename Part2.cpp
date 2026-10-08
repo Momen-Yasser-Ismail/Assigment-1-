@@ -14,6 +14,10 @@
 #include "Image_Class.h"
 using namespace std;
 
+// Global stacks for Undo / Redo history
+stack<Image> undoStack;
+stack<Image> redoStack;
+
 // Adham filters
 void grayscale(Image &image);
 void flip(Image &image, bool h);
@@ -809,6 +813,7 @@ void displaymenu(Image &image, string &name)
             } 
 
             menu_number = stoi(s);
+
             switch(menu_number)
             {
                 case 1: // filters
@@ -834,23 +839,24 @@ void displaymenu(Image &image, string &name)
                     cout << "Select Filter Number : ";
 
                     int filter_number;
+
                     while (true) 
                     {
                         string st;
-                        cout << "Select Filter Number [1:18] : ";
+                        cout << "Select Filter Number [1:20] : ";
                         cin >> st;
 
-                        try {
+                        try 
+                        {
                             size_t pos;
                             filter_number = stoi(st, &pos);
 
-                            if (pos != s.length() || filter_number < 1 || filter_number > 18) 
+                            if (pos != st.length() || filter_number < 1 || filter_number > 20) 
                             {
                                 cout << "Invalid input :( Try again\n";
                                 continue;
                             }
                             break;
-
                         } 
                         catch (...) 
                         {
@@ -859,6 +865,13 @@ void displaymenu(Image &image, string &name)
                         }
                     }
                     
+                    // Push current image state before applying any new filter (1 through 18)
+                    if (filter_number >= 1 && filter_number <= 18) 
+                    {
+                        undoStack.push(image);
+                        while (!redoStack.empty()) redoStack.pop();
+                    }
+
                     switch(filter_number)
                     {
                         case 1: // Grayscale Filter
@@ -1051,19 +1064,19 @@ void displaymenu(Image &image, string &name)
                         }
                         case 19: // Undo
                         {
-                            if (undoStack.empty())
-                            {
-                                cout << "Nothing to undo!\n";
-                            }
-                            else
-                            {
-                                redoStack.push(image);
-                                image = undoStack.top();
-                                undoStack.pop();
-                                cout << "Undo performed successfully :)\n";
-                                saved = false;
-                            }
-                            break;
+                                if (undoStack.empty())
+                                {
+                                    cout << "Nothing to undo!\n";
+                                }
+                                else
+                                {
+                                    redoStack.push(image);
+                                    image = undoStack.top();
+                                    undoStack.pop();
+                                    cout << "Undo performed successfully :)\n";
+                                    saved = false;
+                                }
+                                break;
                         }
                         case 20: // Redo
                         {
@@ -1082,8 +1095,8 @@ void displaymenu(Image &image, string &name)
                             break;
                         }
                     }
-                    break;       
-                }
+                    break;
+                }   
                 case 2: // Save
                 {
                     save(image, name);
@@ -1111,9 +1124,15 @@ void displaymenu(Image &image, string &name)
                         }
                         cout << "Invalid file name :(\n";
                     }
+                    
                     Image im(filename);
                     image = im;
                     name = filename;
+
+                    // Clear history stacks when loading a fresh image
+                    while (!undoStack.empty()) undoStack.pop();
+                    while (!redoStack.empty()) redoStack.pop();
+
                     break;
                 }
                 case 4: // Exit
