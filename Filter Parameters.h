@@ -41,3 +41,5 @@ void skewImage(Image& image, double degree);
 void contrast(Image &image, double factor);
 
 void saturation(Image &image, double factor);
+
+void wave(Image &image);
