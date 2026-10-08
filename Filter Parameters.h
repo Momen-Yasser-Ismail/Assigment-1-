@@ -37,3 +37,7 @@ void infrared(Image &image);
 void OilPainting(Image& image, int radius = 2, int numLevels = 20);
 
 void skewImage(Image& image, double degree);
+
+void contrast(Image &image, double factor);
+
+void saturation(Image &image, double factor);
