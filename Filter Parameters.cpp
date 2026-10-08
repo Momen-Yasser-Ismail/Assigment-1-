@@ -648,3 +648,38 @@ void skewImage(Image& image, double degree)
 
     image = skewedImage;
 }
+
+
+
+// source https://apxml.com/courses/introduction-to-computer-vision/chapter-3-basic-image-processing-techniques/point-operations-contrast-adjustment
+
+void contrast(Image &image, double factor){
+    
+    double alpha = 1 + factor/100;
+    double beta = 128*(1-alpha);
+
+    for(int i = 0;i  < image.width; i++){
+        for(int j = 0; j < image.height; j++){
+            for(int k = 0; k < 3; k++){
+                image(i, j, k) = clamp((int)round(alpha * (image(i, j, k)) + beta), 0, 255);
+            }
+        }
+    }
+}
+
+void saturation(Image &image, double factor){
+    
+    double alpha = 1 + factor/100;
+
+    for(int i = 0;i  < image.width; i++){
+        for(int j = 0; j < image.height; j++){
+            double gray = 0.299 * image(i, j, 0) + 0.587 * image(i, j, 1) + 0.114 * image(i, j, 2);
+            for(int k = 0; k < 3; k++){
+                image(i, j, k) = clamp((int)(gray + (image(i, j, k) - gray) * alpha), 0, 255);            
+            }
+        }
+    }
+}
+
+
+
