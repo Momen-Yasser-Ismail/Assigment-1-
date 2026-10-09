@@ -702,3 +702,58 @@ void wave(Image &image){
     image = newImage;
 }
 
+void pixelated(Image &img, int power_of_pixelated){
+    int i_w = img.width;
+    int i_h = img.height;
+    int d_w = max(4, i_w / max((50-power_of_pixelated/2),10));
+    int d_h = max(4, i_h / max((50-power_of_pixelated/2),10));
+    int new_width = i_w/d_w;
+    int new_height = i_h/d_h;
+    Image resized_img(new_width, new_height);
+    for (int i = 0; i < new_width; ++i){
+        for (int j = 0; j < new_height; ++j){
+            for (int k = 0; k < img.channels; ++k){
+                resized_img(i, j, k) = img(min(i * d_w, i_w - 1), min(j * d_h, i_h - 1), k);
+            }
+        }
+    }
+    int new_width2 = i_w;
+    int new_height2 = i_h;
+    Image resized_img2(new_width2, new_height2);
+    for (int i = 0; i < new_width2; ++i){
+        for (int j = 0; j < new_height2; ++j){
+            for (int k = 0; k < img.channels; ++k){
+                resized_img2(i, j, k) = resized_img((min(i / d_w, new_width - 1)), (min(j / d_h, new_height - 1)), k);
+            }
+        }
+    }
+    img = resized_img2;
+}
+
+void vignette(Image &img , double power)
+{
+    double factor = ((power)/50.0);
+    double centerX = img.width / 2.0;
+    double centerY = img.height / 2.0;
+
+    double maxDistance = sqrt(centerX * centerX + centerY * centerY); // distance between center and corners
+
+    for (int i = 0; i < img.width; ++i)
+    {
+        for (int j = 0; j < img.height; ++j)
+        {
+            double dx = i - centerX; // distance in x axis
+            double dy = j - centerY; // distance in y axis
+
+            double distance = sqrt(dx * dx + dy * dy); // full distance eq
+            double ratio = distance / maxDistance;
+
+            double factor2 = 1.0 - factor * ratio * ratio;
+
+            for (int k = 0; k < img.channels; ++k)
+            {
+                img(i, j, k) = clamp((int)(img(i, j, k) * factor2),0, 255);
+            }
+        }
+    }
+}
