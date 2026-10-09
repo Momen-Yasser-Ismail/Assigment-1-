@@ -43,3 +43,7 @@ void contrast(Image &image, double factor);
 void saturation(Image &image, double factor);
 
 void wave(Image &image);
+
+void pixelated(Image &img, int power_of_pixelated);
+
+void vignette(Image &img , double power);
