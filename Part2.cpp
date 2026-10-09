@@ -14,9 +14,72 @@
 #include "Image_Class.h"
 using namespace std;
 
-// Global stacks for Undo / Redo history
-stack<Image> undoStack;
-stack<Image> redoStack;
+class ImageHistory 
+{
+private:
+    Image originalImage;
+    bool hasOriginalState = false;
+
+    stack<Image> undoStack;
+    stack<Image> redoStack;
+
+public:
+    ImageHistory() = default;
+
+    // To store Original Image
+    void setInitialState(const Image& image) 
+    {
+        originalImage = image;
+        hasOriginalState = true;
+        clear();
+    }
+
+    // We use it before applying new filter
+    void recordState(const Image& currentImage) 
+    {
+        undoStack.push(currentImage);
+        while (!redoStack.empty()) {
+            redoStack.pop();
+        }
+    }
+
+    bool undo(Image& currentImage) 
+    {
+        if (undoStack.empty()) return false;
+        redoStack.push(currentImage);
+        currentImage = undoStack.top();
+        undoStack.pop();
+        return true;
+    }
+
+    bool redo(Image& currentImage) 
+    {
+        if (redoStack.empty()) return false;
+        undoStack.push(currentImage);
+        currentImage = redoStack.top();
+        redoStack.pop();
+        return true;
+    }
+
+    bool reset(Image& currentImage) 
+    {
+        if (!hasOriginalState) return false;
+        
+        // If we want to undo the reset
+        undoStack.push(currentImage);
+        while (!redoStack.empty()) redoStack.pop();
+
+        currentImage = originalImage;
+        return true;
+    }
+
+    // Clears undo/redo stacks
+    void clear() 
+    {
+        while (!undoStack.empty()) undoStack.pop();
+        while (!redoStack.empty()) redoStack.pop();
+    }
+};
 
 // Adham filters
 void grayscale(Image &image);
@@ -783,6 +846,9 @@ void OilPainting(Image& image, int radius = 2, int numLevels = 20)
 
 void displaymenu(Image &image, string &name)
 {
+    ImageHistory history;
+    history.setInitialState(image);
+
     bool saved = true;
     do
     {      
@@ -834,7 +900,7 @@ void displaymenu(Image &image, string &name)
                     cout << " [08] Resize Filter         [17] Skew Filter         \n";
                     cout << " [09] Merge Filter          [18] Oil Painting        \n";
                     cout << "-----------------------------------------------------\n";
-                    cout << " [19] Undo Filter |  [20] Redo Filter\n";
+                    cout << " [19] Undo Filter | [20] Redo Filter | [21] Reset Image\n";
                     cout << "-----------------------------------------------------\n";
                     cout << "Select Filter Number : ";
 
@@ -843,7 +909,7 @@ void displaymenu(Image &image, string &name)
                     while (true) 
                     {
                         string st;
-                        cout << "Select Filter Number [1:20] : ";
+                        cout << "Select Filter Number [1:21] : ";
                         cin >> st;
 
                         try 
@@ -851,7 +917,7 @@ void displaymenu(Image &image, string &name)
                             size_t pos;
                             filter_number = stoi(st, &pos);
 
-                            if (pos != st.length() || filter_number < 1 || filter_number > 20) 
+                            if (pos != st.length() || filter_number < 1 || filter_number > 21) 
                             {
                                 cout << "Invalid input :( Try again\n";
                                 continue;
@@ -868,8 +934,7 @@ void displaymenu(Image &image, string &name)
                     // Push current image state before applying any new filter (1 through 18)
                     if (filter_number >= 1 && filter_number <= 18) 
                     {
-                        undoStack.push(image);
-                        while (!redoStack.empty()) redoStack.pop();
+                        history.recordState(image);
                     }
 
                     switch(filter_number)
@@ -908,6 +973,7 @@ void displaymenu(Image &image, string &name)
                             cout << 1 << ".Horizontally\n" << 2 << ".Vertically\n";
                             cout << "Enter your choice: ";
                             cin >> c;
+
                             flip(image, c-1);
                             cout << "Filter applied successfully :)\n";
                             saved = false;
@@ -972,26 +1038,39 @@ void displaymenu(Image &image, string &name)
                             string filename;
                             cout << "Pls enter filename of the second image to merge with: ";
                             cin >> filename;
-                            while(!validname(filename)){
+
+                            while(!validname(filename))
+                            {
                                 cout << "Pls enter valid filename: ";
                                 cin >> filename;
                             }
+
                             Image image2(filename);
-                            if(image.width != image2.width || image.height != image2.height){
+                            if(image.width != image2.width || image.height != image2.height)
+                            {
                                 cout << "Two images are not the same size.\n";
                                 cout << "1.Resize the smaller one to the larger.\n";
                                 cout << "2.Crop the larger one to the smaller one.\n";
+
                                 int x;
                                 cin >> x;
-                                if(x == 1){
+
+                                if(x == 1)
+                                {
                                     merge(image, image2, true);
-                                } else if(x == 2){
+                                } 
+                                else if(x == 2)
+                                {
                                     merge(image, image2, false);
-                                } else {
+                                } 
+                                else 
+                                {
                                     cout << "Invalid input backing to the menu....\n";
                                     break;
                                 }
-                            } else{
+                            } 
+                            else
+                            {
                                 merge(image, image2, false);
                             }
                             
@@ -1064,33 +1143,40 @@ void displaymenu(Image &image, string &name)
                         }
                         case 19: // Undo
                         {
-                                if (undoStack.empty())
-                                {
-                                    cout << "Nothing to undo!\n";
-                                }
-                                else
-                                {
-                                    redoStack.push(image);
-                                    image = undoStack.top();
-                                    undoStack.pop();
-                                    cout << "Undo performed successfully :)\n";
-                                    saved = false;
-                                }
-                                break;
+                            if (history.undo(image)) 
+                            {
+                                cout << "Undo performed successfully :)\n";
+                                saved = false;
+                            } 
+                            else 
+                            {
+                                cout << "Nothing to undo!\n";
+                            }
+                            break;
                         }
                         case 20: // Redo
                         {
-                            if (redoStack.empty())
+                            if (history.redo(image)) 
+                            {
+                                cout << "Redo performed successfully :)\n";
+                                saved = false;
+                            } 
+                            else 
                             {
                                 cout << "Nothing to redo!\n";
                             }
-                            else
+                            break;
+                        }
+                        case 21: // Reset Image
+                        {
+                            if (history.reset(image)) 
                             {
-                                undoStack.push(image);
-                                image = redoStack.top();
-                                redoStack.pop();
-                                cout << "Redo performed successfully :)\n";
+                                cout << "Image reset to original successfully :)\n";
                                 saved = false;
+                            } 
+                            else 
+                            {
+                                cout << "No original image recorded!\n";
                             }
                             break;
                         }
@@ -1129,9 +1215,8 @@ void displaymenu(Image &image, string &name)
                     image = im;
                     name = filename;
 
-                    // Clear history stacks when loading a fresh image
-                    while (!undoStack.empty()) undoStack.pop();
-                    while (!redoStack.empty()) redoStack.pop();
+                    // Clear history stacks for the new image
+                    history.setInitialState(image);
 
                     break;
                 }
@@ -1174,7 +1259,6 @@ void displaymenu(Image &image, string &name)
                     break;
                 }
             }
-            
         } while (true);
 }
 
