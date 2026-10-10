@@ -47,3 +47,5 @@ void wave(Image &image);
 void pixelated(Image &img, int power_of_pixelated);
 
 void vignette(Image &img , double power);
+
+void RGB(Image &img, int r_slider, int g_slider, int b_slider);
