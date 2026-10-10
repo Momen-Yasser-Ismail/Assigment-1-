@@ -757,3 +757,20 @@ void vignette(Image &img , double power)
         }
     }
 }
+
+void RGB(Image &img, int r_slider, int g_slider, int b_slider)
+{
+    double r_ratio = r_slider /100.0 ;
+    double g_ratio = g_slider /100.0 ;
+    double b_ratio = b_slider /100.0 ;
+    for(int i = 0; i<img.width; ++i){
+        for(int j = 0; j<img.height; ++j){
+            int r = img(i, j, 0) * r_ratio ; 
+            int g = img(i, j, 1) * g_ratio ; 
+            int b = img(i, j, 2) * b_ratio ; 
+            img(i, j, 0) = clamp(r, 0, 255) ;
+            img(i, j, 1) = clamp(g, 0, 255) ;
+            img(i, j, 2) = clamp(b, 0, 255) ;
+        }
+    }
+}
