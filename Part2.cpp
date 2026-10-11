@@ -697,12 +697,10 @@ void infrared(Image& image)
         for (int i = 0; i < image.width; ++i) 
         {
             int r = image.getPixel(i, j, 0); 
-            int g = image.getPixel(i, j, 1); 
-            int b = image.getPixel(i, j, 2); 
 
             image.setPixel(i, j, 0, 255);             
-            image.setPixel(i, j, 1, 255 - g);    
-            image.setPixel(i, j, 2, 255 - b);    
+            image.setPixel(i, j, 1, 255 - r);    
+            image.setPixel(i, j, 2, 255 - r);    
         }
     }
 }
