@@ -522,17 +522,13 @@ void infrared(Image &image)
     {
         for (int j = 0; j < image.height; j++)
         {
-            double r = image.getPixel(i, j, 0) / 255.0;
-            double g = image.getPixel(i, j, 1) / 255.0;
-            double b = image.getPixel(i, j, 2) / 255.0;
+            int r = image.getPixel(i, j, 0); 
+            int g = image.getPixel(i, j, 1); 
+            int b = image.getPixel(i, j, 2); 
 
-            double newR = min(1.0, max(0.0, 1.4 * g + 0.3 * r));
-            double newG = min(1.0, max(0.0, 0.7 * g + 0.3 * b));
-            double newB = min(1.0, max(0.0, 1.1 * b));
-
-            image.setPixel(i, j, 0, static_cast<int>(newR * 255.0));
-            image.setPixel(i, j, 1, static_cast<int>(newG * 255.0));
-            image.setPixel(i, j, 2, static_cast<int>(newB * 255.0));
+            image.setPixel(i, j, 0, 255);             
+            image.setPixel(i, j, 1, 255 - g);    
+            image.setPixel(i, j, 2, 255 - b);
         }
     }
 }
