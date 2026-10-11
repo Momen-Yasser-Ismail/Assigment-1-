@@ -754,9 +754,21 @@ void vignette(Image &img , double power)
     }
 }
 
-void RGB(Image &img, int r_slider, int g_slider, int b_slider)
+void RGB(Image &img, int slider, int channel)
 {
-    double r_ratio = r_slider /100.0 ;
+    int r_slider = 0;
+    int g_slider = 0;
+    int b_slider = 0;
+
+    if(channel == 0){
+        r_slider = slider + 100;
+    } else if(channel == 1){
+        g_slider = slider + 100;
+    }else {
+        b_silder = slider + 100;
+    }
+
+    double r_ratio = r_slider /100.0  ;
     double g_ratio = g_slider /100.0 ;
     double b_ratio = b_slider /100.0 ;
     for(int i = 0; i<img.width; ++i){
