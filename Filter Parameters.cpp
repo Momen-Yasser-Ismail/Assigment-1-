@@ -765,7 +765,7 @@ void RGB(Image &img, int slider, int channel)
     } else if(channel == 1){
         g_slider = slider + 100;
     }else {
-        b_silder = slider + 100;
+        b_slider = slider + 100;
     }
 
     double r_ratio = r_slider /100.0  ;
