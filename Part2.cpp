@@ -701,8 +701,8 @@ void infrared(Image& image)
             int b = image.getPixel(i, j, 2); 
 
             image.setPixel(i, j, 0, 255);             
-            image.setPixel(i, j, 1, 255 - r);    
-            image.setPixel(i, j, 2, 255 - r);    
+            image.setPixel(i, j, 1, 255 - g);    
+            image.setPixel(i, j, 2, 255 - b);    
         }
     }
 }
