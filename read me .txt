@@ -5,8 +5,7 @@ Image Processing Toolbox with C++ & Qt GUI
 
 1. Project Overview
 -------------------
-This project is an advanced C++ image processing application featuring multiple filters, history management (undo/redo/reset), and a custom Qt Creator UI. It was developed collaboratively as part of Assignment 1 for Cairo University (FCAI).
-
+This project is an advanced C++ image processing application featuring multiple filters, history management (undo/redo/reset), and a custom Qt Creator UI.
 2. Team Members & Contributions
 --------------------------------
 - Mo'men Yasser (ID: 20251441) - Frame, Resize, Blur, and Infrared filters
