@@ -1,10 +1,8 @@
 ========================================================================
-
-                      IMAGE PROCESSING APPLICATION
+                    IMAGE PROCESSING APPLICATION
                                 README
                                 
 ========================================================================
-
 1. OVERVIEW
 -----------
 This application is a C++ based desktop image processing tool featuring 
