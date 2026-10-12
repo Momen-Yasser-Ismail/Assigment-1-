@@ -7,7 +7,7 @@
 
 // File Details:
 // The file contatins the C++ code of Assigment 1, we included the libaries then we put the functions and we specifed which one did which function
-// The main function has the display menu function in it which contains the filter functions 
+// The main function has the display menu function in it which contains the filter functions
 // All functions are under main for easy access of the main function
 
 #include <bits/stdc++.h>
@@ -16,69 +16,70 @@ using namespace std;
 
 class ImageHistory 
 {
-private:
-    Image originalImage;
-    bool hasOriginalState = false;
+    private:
+        Image originalImage;
+        bool hasOriginalState = false;
 
-    stack<Image> undoStack;
-    stack<Image> redoStack;
+        stack<Image> undoStack;
+        stack<Image> redoStack;
 
-public:
-    ImageHistory() = default;
+    public:
+        ImageHistory() = default;
 
-    // To store Original Image
-    void setInitialState(const Image& image) 
-    {
-        originalImage = image;
-        hasOriginalState = true;
-        clear();
-    }
-
-    // We use it before applying new filter
-    void recordState(const Image& currentImage) 
-    {
-        undoStack.push(currentImage);
-        while (!redoStack.empty()) {
-            redoStack.pop();
+        // To store Original Image
+        void setInitialState(const Image& image) 
+        {
+            originalImage = image;
+            hasOriginalState = true;
+            clear();
         }
-    }
 
-    bool undo(Image& currentImage) 
-    {
-        if (undoStack.empty()) return false;
-        redoStack.push(currentImage);
-        currentImage = undoStack.top();
-        undoStack.pop();
-        return true;
-    }
+        // We use it before applying new filter
+        void recordState(const Image& currentImage) 
+        {
+            undoStack.push(currentImage);
+            while (!redoStack.empty()) 
+            {
+                redoStack.pop();
+            }
+        }
 
-    bool redo(Image& currentImage) 
-    {
-        if (redoStack.empty()) return false;
-        undoStack.push(currentImage);
-        currentImage = redoStack.top();
-        redoStack.pop();
-        return true;
-    }
+        bool undo(Image& currentImage) 
+        {
+            if (undoStack.empty()) return false;
+            redoStack.push(currentImage);
+            currentImage = undoStack.top();
+            undoStack.pop();
+            return true;
+        }
 
-    bool reset(Image& currentImage) 
-    {
-        if (!hasOriginalState) return false;
-        
-        // If we want to undo the reset
-        undoStack.push(currentImage);
-        while (!redoStack.empty()) redoStack.pop();
+        bool redo(Image& currentImage) 
+        {
+            if (redoStack.empty()) return false;
+            undoStack.push(currentImage);
+            currentImage = redoStack.top();
+            redoStack.pop();
+            return true;
+        }
 
-        currentImage = originalImage;
-        return true;
-    }
+        bool reset(Image& currentImage) 
+        {
+            if (!hasOriginalState) return false;
+            
+            // If we want to undo the reset
+            undoStack.push(currentImage);
+            while (!redoStack.empty()) redoStack.pop();
 
-    // Clears undo/redo stacks
-    void clear() 
-    {
-        while (!undoStack.empty()) undoStack.pop();
-        while (!redoStack.empty()) redoStack.pop();
-    }
+            currentImage = originalImage;
+            return true;
+        }
+
+        // Clears undo/redo stacks
+        void clear() 
+        {
+            while (!undoStack.empty()) undoStack.pop();
+            while (!redoStack.empty()) redoStack.pop();
+        }
 };
 
 // Adham filters
@@ -111,7 +112,7 @@ void skewImage(Image& image);
 
 void displaymenu(Image &image, string& name);
 void save(Image &image, string &name);
-bool validname(const string& filename);
+bool validname(const string& filename, bool check_existence = true);
 
 int main () 
 {
@@ -121,7 +122,8 @@ int main ()
     {
         cout << "Pls enter image name to filter it: ";
         cin >> filename;
-        if(validname(filename)){
+        if(validname(filename))
+        {
             break;
         }
     }
@@ -1277,12 +1279,13 @@ void save(Image &image, string &name)
     else if(x == 2) 
     {
         cout << "Pls enter image name to store new image\n";
-        cout << "and specify extension .jpg, .bmp, .png, .tga: ";
+        cout << "and specify extension .jpg, .jpeg, .bmp, .png, .tga: ";
 
         string filename;
         cin >> filename;
 
-        while (!validname(filename))
+        // Pass false so it only checks the extension and doesn't look for a non-existent new file
+        while (!validname(filename, false))
         {
             cout << "Pls enter a valid name!: ";
             cin >> filename;
@@ -1300,13 +1303,37 @@ void save(Image &image, string &name)
     }
 }
 
-bool validname(const string& filename) 
+bool validname(const string& filename, bool check_existence) 
 {
+    // 1. Check extension
     const char* extension = strrchr(filename.c_str(), '.');
     if (extension == nullptr) 
     {
-        cout << "Invalid filename: " << filename << endl;
+        cout << "Invalid filename (missing extension): " << filename << endl;
         return false;
     }
+
+    string ext(extension);
+    // Convert extension to lowercase for case-insensitive check
+    for (char &c : ext) c = tolower(c);
+
+    if (ext != ".jpg" && ext != ".jpeg" && ext != ".png" && ext != ".bmp" && ext != ".tga") 
+    {
+        cout << "Invalid extension! Supported extensions: .jpg, .jpeg, .png, .bmp, .tga\n";
+        return false;
+    }
+
+    // 2. Check if the file actually exists on disk (if required)
+    if (check_existence) 
+    {
+        ifstream file(filename);
+        if (!file.is_open()) 
+        {
+            cout << "Error: File does not exist or cannot be opened: " << filename << endl;
+            return false;
+        }
+        file.close();
+    }
+
     return true;
 }
