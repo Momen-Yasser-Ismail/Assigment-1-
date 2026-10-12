@@ -1,6 +1,8 @@
 =========================================================
+
 CS213 - Object-Oriented Programming | Assignment 1
 Image Processing Toolbox with C++ & Qt GUI
+
 =========================================================
 
 1. Project Overview
