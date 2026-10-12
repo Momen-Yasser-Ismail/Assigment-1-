@@ -8,7 +8,7 @@ Academic Year: 2026 / 2027 (Semester One)
 1. Video Demonstration
 --------------------------------------------
 - GUI Video Link : https://drive.google.com/file/d/1n8RUbnWRn1a444tMq3O4jasDY4nCveoT/view?usp=sharing
-- Console Video Link : 
+- Console Video Link : https://drive.google.com/file/d/1K62rivpUXSNuinHgK6ML8BOjF96icqX9/view?usp=sharing
 
 2. Shared Documentation Link
 ----------------------------
