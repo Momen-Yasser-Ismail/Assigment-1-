@@ -5,10 +5,12 @@ Image Processing Toolbox with C++ & Qt GUI
 
 =========================================================
 
+--------------------------------v
 1. Project Overview
 -------------------
 This project is an advanced C++ image processing application featuring multiple filters, history management (undo/redo/reset), and a custom Qt Creator UI.
 
+--------------------------------
 2. Team Members & Contributions
 --------------------------------
 - Mo'men Yasser (ID: 20251441) - Frame, Resize, Blur, and Infrared filters
@@ -16,12 +18,14 @@ This project is an advanced C++ image processing application featuring multiple 
 - Ali Yasser (ID: 20250407) - Black & White, Rotate, Detect Image Edges, and Televisions
 - Yehia Nabil (ID: 20250742) - Invert, Lighten/Darken, Crop, and Purple Effect
 
+--------------------------------
 3. Tools & Versions Used
 ------------------------
 - Language: C++ (C++17 / C++20 standard)
 - IDE / Environment: Qt Creator (v13.0 or later) / Visual Studio / MinGW GCC
 - GUI Framework: Qt 6.x (or Qt 5.15+)
 - Operating System: Windows 10 / 11 (tested via MSI Thin 15 and Dell Precision systems)
+
 
 4. Prerequisites & Setup Instructions
 -------------------------------------
