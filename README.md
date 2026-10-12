@@ -1,10 +1,10 @@
 =========================================================
+
 CS213 - Object-Oriented Programming | Assignment 1
 Image Processing Toolbox with C++ & Qt GUI
-
 =========================================================
 
---------------------------------v
+--------------------------------
 1. Project Overview
 -------------------
 This project is an advanced C++ image processing application featuring multiple filters, history management (undo/redo/reset), and a custom Qt Creator UI.
