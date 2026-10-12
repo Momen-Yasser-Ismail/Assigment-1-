@@ -1,52 +1,43 @@
-=========================================================
+========================================================================
+                      IMAGE PROCESSING APPLICATION
+                                README
+========================================================================
 
-CS213 - Object-Oriented Programming | Assignment 1
-Image Processing Toolbox with C++ & Qt GUI
+1. OVERVIEW
+-----------
+This application is a C++ based desktop image processing tool featuring 
+a Graphical User Interface (GUI) built with Qt. It allows users to load 
+images, apply various custom filters (e.g., Blur, 
+infrared, resizing, skewing), undo/redo actions and save the 
+processed results.
 
-=========================================================
 
---------------------------------
-1. Project Overview
--------------------
-This project is an advanced C++ image processing application featuring multiple filters, history management (undo/redo/reset), and a custom Qt Creator UI.
-
---------------------------------
-2. Team Members & Contributions
---------------------------------
-- Mo'men Yasser (ID: 20251441) - Frame, Resize, Blur, and Infrared filters
-- Adham Abdelrahman (ID: 20250078) - Grayscale, Flip, Merge, and Sepia filters
-- Ali Yasser (ID: 20250407) - Black & White, Rotate, Detect Image Edges, and Televisions
-- Yehia Nabil (ID: 20250742) - Invert, Lighten/Darken, Crop, and Purple Effect
-
---------------------------------
-3. Tools & Versions Used
+2. TOOLS & VERSIONS USED
 ------------------------
-- Language: C++ (C++17 / C++20 standard)
-- IDE / Environment: Qt Creator (v13.0 or later) / Visual Studio / MinGW GCC
-- GUI Framework: Qt 6.x (or Qt 5.15+)
-- Operating System: Windows 10 / 11 (tested via MSI Thin 15 and Dell Precision systems)
+The project was developed, compiled, and tested using the following tools:
 
---------------------------------
-4. Prerequisites & Setup Instructions
--------------------------------------
-To run this project on your machine, follow these steps:
+• C++ Standard: C++17
+• IDE / Development Environment: Qt Creator (Version 12.0 or newer recommended)
+• Qt Framework: Qt 6.x (Qt 6.5+ / Qt 5.15+ compatible)
+• Compiler: MinGW 64-bit (GCC 11.2+ / GCC 13+) or MSVC 2019/2022
+• Build System: qmake / CMake
 
-Step 1: Install Qt and C++ Compiler
-- Download and install Qt Online Installer (Qt 6.x recommended).
-- Ensure you install the MinGW or MSVC compiler component along with Qt Creator.
 
-Step 2: Clone or Download the Repository
-- Clone the repository to your local machine:
-  git clone https://github.com/Momen-Yasser-Ismail/Assigment-1-.git
+3. SYSTEM PREREQUISITES
+-----------------------
+To build and run this application, ensure your environment has:
+• Operating System: Windows 10/11 (or Linux / macOS with Qt installed)
+• Qt SDK installed with Qt Creator and standard Desktop C++ Kit configured.
 
-Step 3: Open the Project in Qt Creator
-- Launch Qt Creator.
-- Click on "File > Open File or Project".
-- Navigate to the project folder and select the project configuration file (`CMakeLists.txt` or `.pro`).
-- Configure the project using your installed Qt Kit (e.g., MinGW 64-bit).
 
-Step 4: Build and Run
-- Click the "Configure Project" button if prompted.
-- Click the "Build" button (hammer icon) or press Ctrl+B to compile the source code.
-- Click the "Run" button (green play icon) or press Ctrl+R to launch the application.
-- Enter the image filename (supported formats: .jpg, .png, .bmp, .tga) when prompted in the console/UI interface to begin applying filters.
+4. HOW TO SET UP & RUN THE CODE
+-------------------------------
+1. Extract / Download the project files.
+2. Launch Qt Creator.
+3. Click "Open Project" and select the `.pro` file (e.g., `Assignment1.pro`) 
+   or `CMakeLists.txt` from the project directory.
+4. Select your configured Desktop kit (e.g., Qt 6.x MinGW 64-bit).
+5. Click "Configure Project".
+6. Build the project by pressing `Ctrl + B` (or clicking the hammer icon).
+7. Run the application by pressing `Ctrl + R` (or clicking the green play button).
+
