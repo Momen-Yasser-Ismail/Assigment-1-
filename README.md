@@ -1,6 +1,7 @@
 ========================================================================
-                    IMAGE PROCESSING APPLICATION
-                                README
+
+  IMAGE PROCESSING APPLICATION
+            README
                                 
 ========================================================================
 1. OVERVIEW
