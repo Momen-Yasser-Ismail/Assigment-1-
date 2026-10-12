@@ -26,7 +26,7 @@ This project is an advanced C++ image processing application featuring multiple 
 - GUI Framework: Qt 6.x (or Qt 5.15+)
 - Operating System: Windows 10 / 11 (tested via MSI Thin 15 and Dell Precision systems)
 
-
+--------------------------------
 4. Prerequisites & Setup Instructions
 -------------------------------------
 To run this project on your machine, follow these steps:
