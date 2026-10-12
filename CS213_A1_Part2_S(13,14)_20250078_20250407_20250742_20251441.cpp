@@ -11,7 +11,7 @@
 // All functions are under main for easy access of the main function
 
 #include <bits/stdc++.h>
-#include "Image_Class.h"
+#include "Libraries/Image_Class.h"
 using namespace std;
 
 class ImageHistory 
