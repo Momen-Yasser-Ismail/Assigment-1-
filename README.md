@@ -1,45 +1,81 @@
-===============================================================
+================================================================================
+  CS213: OBJECT-ORIENTED PROGRAMMING (OOP) - ASSIGNMENT 1 (PART 2)
+  FACULTY OF COMPUTERS AND ARTIFICIAL INTELLIGENCE (FCAI), CAIRO UNIVERSITY
+  SUPERVISOR: DR. MOHAMMAD EL-RAMLY
+  DATE: 12 OCTOBER 2026
+================================================================================
 
-CS213 - Object-Oriented Programming | Assignment 1 |
-Image Processing Toolbox with C++ & Qt GUI
+--------------------------------------------------------------------------------
+1. PROJECT OVERVIEW & SCOPE
+--------------------------------------------------------------------------------
+Repository Link: https://github.com/Momen-Yasser-Ismail/Assigment-1-
 
-===============================================================
+This application allows users to load, process, apply multiple filters, and save
+images. It supports both a command-line interface (Console Menu) and a modern 
+Graphical User Interface (GUI).
 
-1. OVERVIEW
------------
-This application is a C++ based desktop image processing tool featuring 
-a Graphical User Interface (GUI) built with Qt. It allows users to load 
-images, apply various custom filters (e.g., Blur, 
-infrared, resizing, skewing), undo/redo actions and save the 
-processed results.
+--------------------------------------------------------------------------------
+2. TEAM DETAILS & WORK BREAKDOWN
+--------------------------------------------------------------------------------
+Course: CS213 Object-Oriented Programming
+Section: [Insert Section Number, e.g., S1, S2]
 
+Team Members:
+- Mo'men Yasser (ID: 20251441) - Frame, Resize, Blur, and Infrared filters
+- Adham Abdelrahman (ID: 20250078) - Grayscale, Flip, Merge, and Sepia filters
+- Ali Yasser (ID: 20250407) - Black & White, Rotate, Detect Image Edges, and Televisions
+- Yehia Nabil (ID: 20250742) - Invert, Lighten/Darken, Crop, and Purple Effect
 
-2. TOOLS & VERSIONS USED
-------------------------
-The project was developed, compiled, and tested using the following tools:
+--------------------------------------------------------------------------------
+3. SETUP AND ENVIRONMENT
+--------------------------------------------------------------------------------
+Tools & Compilers Used:
+- Language: C++ (Standard C++17 or C++20)
+- Compiler: GCC / MinGW g++ v11.0 or higher / MSVC
+- GUI Framework: Qt Framework (Qt 5.15 / Qt 6.x)
+- IDE Options: Qt Creator, VS Code, or CLion
 
-• C++ Standard: C++17
-• IDE / Development Environment: Qt Creator (Version 12.0 or newer recommended)
-• Qt Framework: Qt 6.x (Qt 6.5+ / Qt 5.15+ compatible)
-• Compiler: MinGW 64-bit (GCC 11.2+ / GCC 13+) or MSVC 2019/2022
-• Build System: qmake / CMake
+--------------------------------------------------------------------------------
+4. HOW TO COMPILE AND RUN THE CODE
+--------------------------------------------------------------------------------
 
+A. CONSOLE VERSION (Command-Line Interface)
+-------------------------------------------
+1. Clone or Download the Repository
+- Clone the repository to your local machine:
+  git clone https://github.com/Momen-Yasser-Ismail/Assigment-1-.git
 
-3. SYSTEM PREREQUISITES
------------------------
-To build and run this application, ensure your environment has:
-• Operating System: Windows 10/11 (or Linux / macOS with Qt installed)
-• Qt SDK installed with Qt Creator and standard Desktop C++ Kit configured.
+3. Run the executable "CS213_A1_Part2_S(13,14)_20250078_20250407_20250742_20251441.cpp" file and Run the Code 
 
+4. Follow the interactive menu in the console:
+   - Option 1: Load Image
+   - Option 2: Apply Filters (1 to 18 filters available)
+   - Option 3: Save Image
+   - Option 4: Exit
 
-4. HOW TO SET UP & RUN THE CODE
--------------------------------
-1. Extract / Download the project files.
-2. Launch Qt Creator.
-3. Click "Open Project" and select the `.pro` file (e.g., `Assignment1.pro`) 
-   or `CMakeLists.txt` from the project directory.
-4. Select your configured Desktop kit (e.g., Qt 6.x MinGW 64-bit).
-5. Click "Configure Project".
-6. Build the project by pressing `Ctrl + B` (or clicking the hammer icon).
-7. Run the application by pressing `Ctrl + R` (or clicking the green play button).
+B. GUI VERSION (Graphical User Interface)
+----------------------------------------
+1. Launch Qt Creator.
+2. Select "File" -> "Open File or Project..."
+3. Choose the project configuration file (e.g., `CMakeLists.txt` or `.pro` file).
+4. Configure the build kit (e.g., Desktop Qt 6.x MinGW 64-bit).
+5. Build the project by pressing `Ctrl + B` (or clicking the hammer icon).
+6. Run the project by pressing `Ctrl + R` (or clicking the green Play button).
+7. Use the window buttons to load an image, select a filter from the menu/buttons, 
+   preview the live effect, and save the output.
 
+--------------------------------------------------------------------------------
+5. FILE STRUCTURE SUMMARY FOR ZIP SUBMISSION
+--------------------------------------------------------------------------------
+Submission File Name: CS213_A1_Part2_SecNum_ID1_ID2_ID3_ID4.zip
+
+Contents:
+- Source Files (.cpp, .h, .hpp, Image_Class.h)
+- Project Configuration File (.pro or CMakeLists.txt)
+- Main C++ File with Header Details
+- README.txt (This setup and running instructions file)
+- Links.txt / Links.html (Direct links to Video Demo and Shared Document)
+
+Note: Executable (.exe) files and external library binaries (Qt binaries) 
+are excluded as per assignment guidelines.
+================================================================================
