@@ -8,6 +8,7 @@
 // File Details:
 // The file contatins the C++ code of Assigment 1, we included the libaries then we put the functions and we specifed which one did which function
 // The main function has the display menu function in it which contains the filter functions
+// The Class ImageHistory is used for the undo, redo, and reset functions
 // All functions are under main for easy access of the main function
 
 #include <bits/stdc++.h>
