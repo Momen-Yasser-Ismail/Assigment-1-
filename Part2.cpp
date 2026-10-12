@@ -136,11 +136,14 @@ int main ()
 
 void grayscale(Image &image)
 {
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
+    for (int i = 0; i < image.width; ++i) 
+    {
+        for (int j = 0; j < image.height; ++j) 
+        {
             unsigned  int avg = 0; // Initialize average value
 
-            for (int k = 0; k < 3; ++k) {
+            for (int k = 0; k < 3; ++k) 
+            {
                 avg += image(i, j, k); // Accumulate pixel values
             }
 
@@ -327,10 +330,14 @@ void frame (Image &image)
     }
 }
 
-void flip(Image &image, bool h){
-    if(h){
-        for(int i = 0;i < image.width; i++){
-            for(int j = 0; j * 2 < image.height; j++){
+void flip(Image &image, bool h)
+{
+    if(h)
+    {
+        for(int i = 0;i < image.width; i++)
+        {
+            for(int j = 0; j * 2 < image.height; j++)
+            {
                 swap(image(i, j, 0), image(i, image.height - 1 - j, 0));
                 swap(image(i, j, 1), image(i, image.height - 1 - j, 1));
                 swap(image(i, j, 2), image(i, image.height - 1 - j, 2));
@@ -338,8 +345,11 @@ void flip(Image &image, bool h){
         }
         return;
     }
-    for(int i = 0;i * 2 < image.width; i++){
-        for(int j = 0; j < image.height; j++){
+    
+    for(int i = 0;i * 2 < image.width; i++)
+    {
+        for(int j = 0; j < image.height; j++)
+        {
             swap(image(i, j, 0), image(image.width-i-1, j, 0));
             swap(image(i, j, 1), image(image.width-i-1, j, 1));
             swap(image(i, j, 2), image(image.width-i-1, j, 2));
@@ -384,6 +394,7 @@ void rotate(Image &img)
                 }
             }
         }
+
         img = rotated;
         return;
     }
@@ -401,9 +412,11 @@ void rotate(Image &img)
                 }
             }
         }
+
         img = rotated;
         return;
     }
+
     cout << "Invalid input :( Try again form the menu\n";
 }
 
@@ -412,17 +425,22 @@ void lighten_darken(Image &img)
 
     int change;
     int rate_of_change;
+
     cout << "Enter 1 to lighten or 2 to darken: ";
     cin >> change;
     cout << "Enter the rate of change (0-100%): ";
     cin >> rate_of_change;
     double factor = rate_of_change / 100.0;
 
-    if (change == 1){ // Lighten the image
+    if (change == 1) // Lighten the image
+    { 
         factor = 1 + factor;
-        for (int i = 0; i < img.width; ++i){
-            for (int j = 0; j < img.height; ++j){
-                for (int k = 0; k < img.channels; ++k){
+        for (int i = 0; i < img.width; ++i)
+        {
+            for (int j = 0; j < img.height; ++j)
+            {
+                for (int k = 0; k < img.channels; ++k)
+                {
                     int color_value = img(i, j, k);
                     int new_color_value = color_value * factor ;
                     img(i, j, k) = min(new_color_value, 255);
@@ -431,11 +449,15 @@ void lighten_darken(Image &img)
         }
     }
 
-    else if (change == 2){ // Darken the image
+    else if (change == 2) // Darken the image
+    { 
         factor = 1 - factor;
-        for (int i = 0; i < img.width; ++i){
-            for (int j = 0; j < img.height; ++j){
-                for (int k = 0; k < img.channels; ++k){
+        for (int i = 0; i < img.width; ++i)
+        {
+            for (int j = 0; j < img.height; ++j)
+            {
+                for (int k = 0; k < img.channels; ++k)
+                {
                     int color_value = img(i, j, k);
                     int new_color_value = color_value * factor ;
                     img(i, j, k) = max(new_color_value, 0);
@@ -486,8 +508,10 @@ void resize(Image &image, int new_width, int new_height)
     image = new_image;
 }
 
-void merge(Image &image, Image &image2, bool apply_resize){
-    if(apply_resize){
+void merge(Image &image, Image &image2, bool apply_resize)
+{
+    if(apply_resize)
+    {
         int height = max(image.height, image2.height);
         int width = max(image.width, image2.width);
 
@@ -500,13 +524,17 @@ void merge(Image &image, Image &image2, bool apply_resize){
 
     Image res(width, height);
 
-    for(int i = 0;i  < width; i++){
-        for(int j = 0; j < height; j++){
-            for(int k = 0; k < 3; k++){
+    for(int i = 0;i  < width; i++)
+    {
+        for(int j = 0; j < height; j++)
+        {
+            for(int k = 0; k < 3; k++)
+            {
                 res(i, j, k) = (image(i, j, k) + image2(i, j, k))/2;
             }
         }
     }
+
     image = res;
 }
 
@@ -530,7 +558,6 @@ void Detact_Image_Edges(Image &img)
     {
         for (int j = 0; j < img.height; j++)
         {
-
             unsigned int r = img(i, j, 0);
             unsigned int g = img(i, j, 1);
             unsigned int b = img(i, j, 2);
@@ -541,8 +568,10 @@ void Detact_Image_Edges(Image &img)
             img(i, j, 2) = gray;
         }
     }
+
     Image new_image(img.width, img.height);
     int different = 30;
+
     for (int i = 0; i < img.width - 1; i++)
     {
         for (int j = 0; j < img.height - 1; j++)
@@ -564,6 +593,7 @@ void Detact_Image_Edges(Image &img)
             }
         }
     }
+
     img = new_image;
 }
 
@@ -574,14 +604,20 @@ void crop(Image &img)
     cin >> x >> y;
     cout << "Enter the width and height : ";
     cin >> w >> h;
+
     Image cropped_img(w, h);
-    for (int i = 0; i < w; ++i){
-        for (int j = 0; j < h; ++j){
-            for (int k = 0; k < img.channels; ++k){
+
+    for (int i = 0; i < w; ++i)
+    {
+        for (int j = 0; j < h; ++j)
+        {
+            for (int k = 0; k < img.channels; ++k)
+            {
                 cropped_img(i, j, k) = img(x + i, y + j, k);
             }
         }
     }
+
     img = cropped_img;
 }
 
@@ -712,15 +748,21 @@ void purple_effect(Image &img)
     int power_of_effect;
     cout << "Enter number between 1 to 100 represent power of purple effect : ";
     cin >> power_of_effect;
+
     float ratio = power_of_effect / 100.0;
-    for (int i = 0; i < img.width; ++i){
-        for (int j = 0; j < img.height; ++j){
+
+    for (int i = 0; i < img.width; ++i)
+    {
+        for (int j = 0; j < img.height; ++j)
+        {
             int R = img(i, j, 0);
             int G = img(i, j, 1);
             int B = img(i, j, 2);
+
             int target_R = min((int)((R * 1.15)+10), 255);
             int target_G = max((int)((G * 0.75)), 0);
             int target_B = min((int)((B * 1.30)+20), 255);
+            
             img(i, j, 0) = (int)(R*(1 - ratio) + (target_R*ratio));
             img(i, j, 1) = (int)(G*(1 - ratio) + (target_G*ratio));
             img(i, j, 2) = (int)(B*(1 - ratio) + (target_B*ratio));
