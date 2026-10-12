@@ -4,11 +4,14 @@ using namespace std;
 
 void grayscale(Image &image)
 {
-    for (int i = 0; i < image.width; ++i) {
-        for (int j = 0; j < image.height; ++j) {
+    for (int i = 0; i < image.width; ++i) 
+    {
+        for (int j = 0; j < image.height; ++j) 
+        {
             unsigned  int avg = 0; // Initialize average value
 
-            for (int k = 0; k < 3; ++k) {
+            for (int k = 0; k < 3; ++k) 
+            {
                 avg += image(i, j, k); // Accumulate pixel values
             }
 
@@ -33,9 +36,11 @@ void black_and_white(Image &img)
             unsigned int b = img(i, j, 2);
 
             unsigned int gray = (r + g + b) / 3;
+
             img(i, j, 0) = gray;
             img(i, j, 1) = gray;
             img(i, j, 2) = gray;
+
             if (gray > 128)
             {
                 img(i, j, 0) = 255;
@@ -54,9 +59,12 @@ void black_and_white(Image &img)
 
 void Invert(Image &img)
 {
-    for (int i = 0; i < img.width; ++i){
-        for (int j = 0; j < img.height; ++j){
-            for (int k = 0; k < 3; ++k){
+    for (int i = 0; i < img.width; ++i)
+    {
+        for (int j = 0; j < img.height; ++j)
+        {
+            for (int k = 0; k < 3; ++k)
+            {
                 img(i, j, k) = 255 - img(i, j, k);
             }
         }
@@ -165,6 +173,7 @@ void rotate(Image &img, int rotation)
                 }
             }
         }
+
         img = rotated;
         return;
     }
@@ -181,6 +190,7 @@ void rotate(Image &img, int rotation)
                 }
             }
         }
+
         img = rotated;
         return;
     }
@@ -198,6 +208,7 @@ void rotate(Image &img, int rotation)
                 }
             }
         }
+
         img = rotated;
         return;
     }
@@ -338,6 +349,7 @@ void Detact_Image_Edges(Image &img)
             unsigned int b = img(i, j, 2);
 
             unsigned int gray = (r + g + b) / 3;
+
             img(i, j, 0) = gray;
             img(i, j, 1) = gray;
             img(i, j, 2) = gray;
@@ -649,38 +661,50 @@ void skewImage(Image& image, double degree)
 
 // source https://apxml.com/courses/introduction-to-computer-vision/chapter-3-basic-image-processing-techniques/point-operations-contrast-adjustment
 
-void contrast(Image &image, double factor){
+void contrast(Image &image, double factor)
+{
     
     double alpha = 1 + factor/100;
     double beta = 128*(1-alpha);
 
-    for(int i = 0;i  < image.width; i++){
-        for(int j = 0; j < image.height; j++){
-            for(int k = 0; k < 3; k++){
+    for(int i = 0;i  < image.width; i++)
+    {
+        for(int j = 0; j < image.height; j++)
+        {
+            for(int k = 0; k < 3; k++)
+            {
                 image(i, j, k) = clamp((int)round(alpha * (image(i, j, k)) + beta), 0, 255);
             }
         }
     }
 }
 
-void saturation(Image &image, double factor){
+void saturation(Image &image, double factor)
+{
     
     double alpha = 1 + factor/100;
 
-    for(int i = 0;i  < image.width; i++){
-        for(int j = 0; j < image.height; j++){
+    for(int i = 0;i  < image.width; i++)
+    {
+        for(int j = 0; j < image.height; j++)
+        {
             double gray = 0.299 * image(i, j, 0) + 0.587 * image(i, j, 1) + 0.114 * image(i, j, 2);
-            for(int k = 0; k < 3; k++){
+
+            for(int k = 0; k < 3; k++)
+            {
                 image(i, j, k) = clamp((int)(gray + (image(i, j, k) - gray) * alpha), 0, 255);            
             }
         }
     }
 }
 
-void wave(Image &image){ 
+void wave(Image &image)
+{ 
     Image newImage(image);
-    for(int i = 0; i < image.width; i++){
-        for(int j = 0; j < image.height; j++){
+    for(int i = 0; i < image.width; i++)
+    {
+        for(int j = 0; j < image.height; j++)
+        {
             int srci = i + 10.0 * sin(2 * 3.14159265358979323846 * j / 80.0);
             int srcj = j;
 
@@ -695,34 +719,48 @@ void wave(Image &image){
                 newImage(i, j, c) = image(srci, srcj, c);
         }
     }
+    
     image = newImage;
 }
 
-void pixelated(Image &img, int power_of_pixelated){
+void pixelated(Image &img, int power_of_pixelated)
+{
     int i_w = img.width;
     int i_h = img.height;
     int d_w = max(4, i_w / max((50-power_of_pixelated/2),10));
     int d_h = max(4, i_h / max((50-power_of_pixelated/2),10));
     int new_width = i_w/d_w;
     int new_height = i_h/d_h;
+
     Image resized_img(new_width, new_height);
-    for (int i = 0; i < new_width; ++i){
-        for (int j = 0; j < new_height; ++j){
-            for (int k = 0; k < img.channels; ++k){
+
+    for (int i = 0; i < new_width; ++i)
+    {
+        for (int j = 0; j < new_height; ++j)
+        {
+            for (int k = 0; k < img.channels; ++k)
+            {
                 resized_img(i, j, k) = img(min(i * d_w, i_w - 1), min(j * d_h, i_h - 1), k);
             }
         }
     }
+
     int new_width2 = i_w;
     int new_height2 = i_h;
+
     Image resized_img2(new_width2, new_height2);
-    for (int i = 0; i < new_width2; ++i){
-        for (int j = 0; j < new_height2; ++j){
-            for (int k = 0; k < img.channels; ++k){
+
+    for (int i = 0; i < new_width2; ++i)
+    {
+        for (int j = 0; j < new_height2; ++j)
+        {
+            for (int k = 0; k < img.channels; ++k)
+            {
                 resized_img2(i, j, k) = resized_img((min(i / d_w, new_width - 1)), (min(j / d_h, new_height - 1)), k);
             }
         }
     }
+
     img = resized_img2;
 }
 
@@ -760,22 +798,31 @@ void RGB(Image &img, int slider, int channel)
     int g_slider = 0;
     int b_slider = 0;
 
-    if(channel == 0){
+    if(channel == 0)
+    {
         r_slider = slider + 100;
-    } else if(channel == 1){
+    } 
+    else if(channel == 1)
+    {
         g_slider = slider + 100;
-    }else {
+    }
+    else 
+    {
         b_slider = slider + 100;
     }
 
     double r_ratio = r_slider /100.0  ;
     double g_ratio = g_slider /100.0 ;
     double b_ratio = b_slider /100.0 ;
-    for(int i = 0; i<img.width; ++i){
-        for(int j = 0; j<img.height; ++j){
+
+    for(int i = 0; i<img.width; ++i)
+    {
+        for(int j = 0; j<img.height; ++j)
+        {
             int r = img(i, j, 0) * r_ratio ; 
             int g = img(i, j, 1) * g_ratio ; 
             int b = img(i, j, 2) * b_ratio ; 
+            
             img(i, j, 0) = clamp(r, 0, 255) ;
             img(i, j, 1) = clamp(g, 0, 255) ;
             img(i, j, 2) = clamp(b, 0, 255) ;
