@@ -762,7 +762,7 @@ void purple_effect(Image &img)
             int target_R = min((int)((R * 1.15)+10), 255);
             int target_G = max((int)((G * 0.75)), 0);
             int target_B = min((int)((B * 1.30)+20), 255);
-            
+
             img(i, j, 0) = (int)(R*(1 - ratio) + (target_R*ratio));
             img(i, j, 1) = (int)(G*(1 - ratio) + (target_G*ratio));
             img(i, j, 2) = (int)(B*(1 - ratio) + (target_B*ratio));
@@ -1236,12 +1236,17 @@ void displaymenu(Image &image, string &name)
                     cout << "Do you want to save the changes to the current image before uploading a new one?\n";
                     cout << "1.Yes\n2.No\n";
                     cout << "Enter Your choice: ";
+
                     int x;
                     cin >> x;
-                    if (x == 1){
+
+                    if (x == 1)
+                    {
                         save(image, name);
                     }
+
                     string filename;
+
                     while(true)
                     {
                         cout << "Pls enter new image name to filter it: ";
@@ -1269,6 +1274,7 @@ void displaymenu(Image &image, string &name)
                         cout << "1.Save current image\n";
                         cout << "2.Don't save\n";
                         cout << "Enter your choice: ";
+                        
                         int x;
                         cin >> x;
 
