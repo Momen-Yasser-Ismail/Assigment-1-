@@ -1,0 +1,21 @@
+=========================================================
+CS213 - Object-Oriented Programming | Assignment 1 Submission
+Institution: Cairo University, Faculty of Computers and AI (FCAI)
+Supervisor: Dr. Mohammad El-Ramly
+Academic Year: 2026 / 2027 (Semester One)
+=========================================================
+
+1. Project Description & Video Demonstration
+--------------------------------------------
+- Video Link (Demo & Walkthrough): [PASTE YOUR VIDEO LINK HERE]
+
+2. Shared Documentation Link
+----------------------------
+The complete project report, team contributions, system diagram, reflection notes, 
+repository links, and handwritten academic oath can be found in our shared document below:
+
+- Shared Document Link: https://docs.google.com/document/d/1Awt-OSwFxAm1RTEhgz5T-bipjGz8uryDbHh0dYOZltA/edit?usp=drivesdk
+
+3. GitHub Repository
+--------------------
+- Repository URL: https://github.com/Momen-Yasser-Ismail/Assigment-1-
