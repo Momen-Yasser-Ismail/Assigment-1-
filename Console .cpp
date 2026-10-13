@@ -1,8 +1,8 @@
 // Header 
 
 // Adham Abdelrahman  id: 20250078  Section: S(35,36)   Filters: Grayscale, Flip, Merge and Sepia
-// Ali Yasser         id: 20250407  Section: None Yet   Filters: Black and white, Rotate, Detect Image Edges and Televisions
-// Yehia Nabil        id: 20250742  Section: S(25.26)  Filters: Invert, lighten_darken, Crop and Purple Effect
+// Ali Yasser         id: 20250407  Section: No Group   Filters: Black and white, Rotate, Detect Image Edges and Televisions
+// Yehia Nabil        id: 20250742  Section: S(25,26)   Filters: Invert, lighten_darken, Crop and Purple Effect
 // Mo'men Yasser      id: 20251441  Section: S(13,14)   Filters: Frame, Resize, Blur and Infrared
 
 // File Details:

@@ -21,10 +21,10 @@ Course: CS213 Object-Oriented Programming
 Section: [Insert Section Number, e.g., S1, S2]
 
 Team Members:
-- Mo'men Yasser (ID: 20251441) - Frame, Resize, Blur, and Infrared filters
-- Adham Abdelrahman (ID: 20250078) - Grayscale, Flip, Merge, and Sepia filters
-- Ali Yasser (ID: 20250407) - Black & White, Rotate, Detect Image Edges, and Televisions
-- Yehia Nabil (ID: 20250742) - Invert, Lighten/Darken, Crop, and Purple Effect
+- Mo'men Yasser      (ID: 20251441) 	- Frame, Resize, Blur, and Infrared filters
+- Adham Abdelrahman  (ID: 20250078) 	- Grayscale, Flip, Merge, and Sepia filters
+- Ali Yasser 	     (ID: 20250407) 	- Black & White, Rotate, Detect Image Edges, and Televisions
+- Yehia Nabil 	     (ID: 20250742) 	- Invert, Lighten/Darken, Crop, and Purple Effect
 
 --------------------------------------------------------------------------------
 3. SETUP AND ENVIRONMENT
@@ -33,19 +33,18 @@ Tools & Compilers Used:
 - Language: C++ (Standard C++17 or C++20)
 - Compiler: GCC / MinGW g++ v11.0 or higher / MSVC
 - GUI Framework: Qt Framework (Qt 5.15 / Qt 6.x)
-- IDE Options: Qt Creator, VS Code, or CLion
 
 --------------------------------------------------------------------------------
 4. HOW TO COMPILE AND RUN THE CODE
 --------------------------------------------------------------------------------
 
-A. CONSOLE VERSION (Command-Line Interface)
+Option A CONSOLE VERSION (Command-Line Interface)
 -------------------------------------------
 1. Clone or Download the Repository
 - Clone the repository to your local machine:
   git clone https://github.com/Momen-Yasser-Ismail/Assigment-1-.git
 
-3. Run the executable "CS213_A1_Part2_S(13,14)_20250078_20250407_20250742_20251441.cpp" file and Run the Code 
+3. Run the executable "Console.cpp" file and Run the Code 
 
 4. Follow the interactive menu in the console:
    - Option 1: Load Image
@@ -57,7 +56,7 @@ B. GUI VERSION (Graphical User Interface)
 ----------------------------------------
 1. Launch Qt Creator.
 2. Select "File" -> "Open File or Project..."
-3. Choose the project configuration file (e.g., `CMakeLists.txt` or `.pro` file).
+3. Navigate into the `GUI` folder and select the `CMakeLists.txt` file.
 4. Configure the build kit (e.g., Desktop Qt 6.x MinGW 64-bit).
 5. Build the project by pressing `Ctrl + B` (or clicking the hammer icon).
 6. Run the project by pressing `Ctrl + R` (or clicking the green Play button).
