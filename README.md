@@ -23,7 +23,7 @@ Team Members:
 - Adham Abdelrahman  id: 20250078  Section: S(35,36)   Filters: Grayscale, Flip, Merge and Sepia
 - Ali Yasser         id: 20250407  Section: No Group   Filters: Black and white, Rotate, Detect Image Edges and Televisions
 - Yehia Nabil        id: 20250742  Section: S(25,26)   Filters: Invert, lighten_darken, Crop and Purple Effect
-- Mo'men Yasser      id: 20251441  Section: S(13,14)   Filters: Frame, Resize, Blur and Infrared
+- Mo'men Yasser      id: 20251441  Section: S(13,14)   Filters: Frame, Resize, Blur and Infrared  
 
 --------------------------------------------------------------------------------
 3. SETUP AND ENVIRONMENT
@@ -62,17 +62,6 @@ B. GUI VERSION (Graphical User Interface)
 7. Use the window buttons to load an image, select a filter from the menu/buttons, 
    preview the live effect, and save the output.
 
---------------------------------------------------------------------------------
-5. FILE STRUCTURE SUMMARY FOR ZIP SUBMISSION
---------------------------------------------------------------------------------
-Submission File Name: CS213_A1_Part2_SecNum_ID1_ID2_ID3_ID4.zip
-
-Contents:
-- Source Files (.cpp, .h, .hpp, Image_Class.h)
-- Project Configuration File (.pro or CMakeLists.txt)
-- Main C++ File with Header Details
-- README.txt (This setup and running instructions file)
-- Links.txt / Links.html (Direct links to Video Demo and Shared Document)
 
 Note: Executable (.exe) files and external library binaries (Qt binaries) 
 are excluded as per assignment guidelines.
