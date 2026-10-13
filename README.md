@@ -18,13 +18,12 @@ Graphical User Interface (GUI).
 2. TEAM DETAILS & WORK BREAKDOWN
 --------------------------------------------------------------------------------
 Course: CS213 Object-Oriented Programming
-Section: [Insert Section Number, e.g., S1, S2]
 
 Team Members:
-- Mo'men Yasser      (ID: 20251441) 	- Frame, Resize, Blur, and Infrared filters
-- Adham Abdelrahman  (ID: 20250078) 	- Grayscale, Flip, Merge, and Sepia filters
-- Ali Yasser 	     (ID: 20250407) 	- Black & White, Rotate, Detect Image Edges, and Televisions
-- Yehia Nabil 	     (ID: 20250742) 	- Invert, Lighten/Darken, Crop, and Purple Effect
+- Adham Abdelrahman  id: 20250078  Section: S(35,36)   Filters: Grayscale, Flip, Merge and Sepia
+- Ali Yasser         id: 20250407  Section: No Group   Filters: Black and white, Rotate, Detect Image Edges and Televisions
+- Yehia Nabil        id: 20250742  Section: S(25,26)   Filters: Invert, lighten_darken, Crop and Purple Effect
+- Mo'men Yasser      id: 20251441  Section: S(13,14)   Filters: Frame, Resize, Blur and Infrared
 
 --------------------------------------------------------------------------------
 3. SETUP AND ENVIRONMENT
